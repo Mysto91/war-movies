@@ -1,0 +1,3 @@
+Mettre à jour l'env de tests sur phpunit :
+
+php artisan config:clear
