@@ -28,7 +28,7 @@ class ArticlePostTest extends TestCase
         $response = $this->json('POST', $this->url, $body);
 
         $response->assertStatus(201);
-        $this->assertDatabaseHas('article', $body);
+        $this->assertDatabaseHas('articles', $body);
         $this->assertEquals($body['title'], $response->original['title']);
     }
 

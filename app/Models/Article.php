@@ -15,7 +15,7 @@ class Article extends Model
         'description'
     ];
 
-    protected $table = 'article';
+    protected $table = 'articles';
 
     /**
      * Undocumented function
