@@ -18,17 +18,29 @@ class ArticleDeleteTest extends TestCase
      * @return void
      */
 
-    public function getUrl($id)
+    public function getUrl($id, $apiToken)
     {
-        return $this->url . '/' . $id;
+        return $this->url . '/' . $id . '?api_token=' . $apiToken;
     }
 
     public function testIfDeleteWorks()
     {
+        $user = $this->getUser();
+
         $article = Article::factory()->create();
 
-        $response = $this->delete($this->getUrl($article->id));
+        $response = $this->delete($this->getUrl($article->id, $user->api_token));
 
         $response->assertStatus(204);
+    }
+
+    public function testIfDeleteWithoutNotAuthenticatedNotWork()
+    {
+        $user = $this->getUser();
+
+        $article = Article::factory()->create();
+
+        $response = $this->delete($this->getUrl($article->id, '1234'));
+        $response->assertStatus(302);
     }
 }

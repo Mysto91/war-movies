@@ -13,6 +13,11 @@ class ArticleGetTest extends TestCase
 
     private $url = '/api/articles';
 
+    public function getUrl($apiToken)
+    {
+        return $this->url . '?api_token=' . $apiToken;
+    }
+
     /**
      * A basic feature test example.
      *
@@ -20,11 +25,19 @@ class ArticleGetTest extends TestCase
      */
     public function testIfGetWorks()
     {
+        $user = $this->getUser();
+
         $articlesList = Article::factory(5)->create();
 
-        $response = $this->get($this->url);
+        $response = $this->get($this->getUrl($user->api_token));
 
         $response->assertStatus(200);
         $this->assertEquals(5, sizeof($response->original));
+    }
+
+    public function testIfGetWithoutNotAuthenticatedNotWork()
+    {
+        $response = $this->get($this->getUrl(123456));
+        $response->assertStatus(302);
     }
 }

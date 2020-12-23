@@ -15,8 +15,14 @@ use App\Http\Controllers;
 |
 */
 
+Route::get('/login', function() {
+    return 'hello world';
+});
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('/articles', 'App\Http\Controllers\ArticleController');
+Route::middleware('auth:api')->group(function() {
+    Route::apiResource('/articles', 'App\Http\Controllers\ArticleController');
+});

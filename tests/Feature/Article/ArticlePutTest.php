@@ -13,9 +13,9 @@ class ArticlePutTest extends TestCase
 
     private $url = '/api/articles';
 
-    public function getUrl($id)
+    public function getUrl($id, $apiToken)
     {
-        return $this->url . '/' . $id;
+        return $this->url . '/' . $id . '?api_token=' . $apiToken;
     }
 
     /**
@@ -25,6 +25,8 @@ class ArticlePutTest extends TestCase
      */
     public function testIfPutWorks()
     {
+        $user = $this->getUser();
+
         $body = [
             'title' => 'nouveau titre',
             'description' => 'nouvelle description'
@@ -32,7 +34,7 @@ class ArticlePutTest extends TestCase
 
         $article = Article::factory()->create();
 
-        $response = $this->json('PUT', $this->getUrl($article->id), $body);
+        $response = $this->json('PUT', $this->getUrl($article->id, $user->api_token), $body);
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('articles', $body);
@@ -40,26 +42,38 @@ class ArticlePutTest extends TestCase
 
     public function testIfPutWithWrongBodyNotWork()
     {
+        $user = $this->getUser();
+
         $body = [
             'description' => 'ma description'
         ];
 
         $article = Article::factory()->create();
 
-        $response = $this->json('PUT', $this->getUrl($article->id), $body);
+        $response = $this->json('PUT', $this->getUrl($article->id, $user->api_token), $body);
         $this->assertEquals('The given data was invalid.', $response->original['message']);
         $this->assertEquals('The title field is required.', $response->original['errors']['title'][0]);
     }
 
     public function testIfPutWithNotExistingArticleNotWork()
     {
+        $user = $this->getUser();
+
         $body = [
             'title' => 'nouveau titre',
             'description' => 'nouvelle description'
         ];
 
-        $response = $this->json('PUT', $this->getUrl(99999), $body);
+        $response = $this->json('PUT', $this->getUrl(999999, $user->api_token), $body);
 
         $response->assertStatus(404);
+    }
+
+    public function testIfPutWithoutNotAuthenticatedNotWork()
+    {
+        $article = Article::factory()->create();
+
+        $response = $this->json('PUT', $this->getUrl($article->id, 123456), []);
+        $response->assertStatus(401);
     }
 }
