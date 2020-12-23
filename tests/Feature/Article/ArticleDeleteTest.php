@@ -15,7 +15,7 @@ class ArticleDeleteTest extends TestCase
     /**
      * A basic feature test example.
      *
-     * @return void
+     * @return string
      */
 
     public function getUrl($id, $apiToken)

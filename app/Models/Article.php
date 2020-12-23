@@ -21,9 +21,9 @@ class Article extends Model
      * Undocumented function
      *
      * @param array $params
-     * @return Collection
+     * @return Collection<Article>
      */
-    public static function getArticleList($params)
+    public static function getArticleList($params) : Collection
     {
         return self::select()
                     ->get();

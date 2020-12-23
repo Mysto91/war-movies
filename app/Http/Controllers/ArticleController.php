@@ -17,20 +17,20 @@ class ArticleController extends Controller
      *
      * @return Response
      */
-    public function index(GetArticleRequest $request)
+    public function index(GetArticleRequest $request) : Response
     {
         $articleList = Article::getArticleList($request->validated());
         return response($articleList)
-                ->header('X-Total-Count', sizeof($articleList));
+                ->header('X-Total-Count', (string) sizeof($articleList));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  PostArticleRequest  $request
-     * @return Response
+     * @return Article
      */
-    public function store(PostArticleRequest $request)
+    public function store(PostArticleRequest $request) : Article
     {
         return Article::create($request->validated());
     }
@@ -39,9 +39,9 @@ class ArticleController extends Controller
      * Display the specified resource.
      *
      * @param  Article  $article
-     * @return Response
+     * @return Article
      */
-    public function show(Article $article)
+    public function show(Article $article) : Article
     {
         return $article;
     }
@@ -53,7 +53,7 @@ class ArticleController extends Controller
      * @param  Article  $article
      * @return Response
      */
-    public function update(PutArticleRequest $request, Article $article)
+    public function update(PutArticleRequest $request, Article $article) : Response
     {
         $body = $request->all();
 
@@ -68,7 +68,7 @@ class ArticleController extends Controller
      * @param  Article  $article
      * @return Response
      */
-    public function destroy(Article $article)
+    public function destroy(Article $article) : Response
     {
         $article->delete();
 
