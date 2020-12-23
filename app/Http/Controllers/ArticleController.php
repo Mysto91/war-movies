@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GetArticleRequest;
 use App\Http\Requests\PostArticleRequest;
 use App\Http\Requests\PutArticleRequest;
 use App\Models\Article;
@@ -16,9 +17,11 @@ class ArticleController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(GetArticleRequest $request)
     {
-        return Article::all();
+        $articleList = Article::getArticleList($request->validated());
+        return response($articleList)
+                ->header('X-Total-Count', sizeof($articleList));
     }
 
     /**
@@ -29,16 +32,7 @@ class ArticleController extends Controller
      */
     public function store(PostArticleRequest $request)
     {
-        $body = $request->all();
-
-        $article = new Article();
-
-        $article->title = $body['title'];
-        $article->description = $body['description'];
-
-        $article->save();
-
-        return response()->json($article, 201);
+        return Article::create($request->validated());
     }
 
     /**
@@ -65,7 +59,7 @@ class ArticleController extends Controller
 
         $article->update($body);
 
-        return response()->json($article, 201);
+        return response($article, 201);
     }
 
     /**
@@ -78,6 +72,6 @@ class ArticleController extends Controller
     {
         $article->delete();
 
-        return response()->json([], 204);
+        return response([], 204);
     }
 }
