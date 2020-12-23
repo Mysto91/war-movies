@@ -11,7 +11,7 @@ class ArticlePostTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $url = 'api/articles';    
+    private $url = 'api/articles';
     
     /**
      * A basic feature test example.
@@ -29,7 +29,7 @@ class ArticlePostTest extends TestCase
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('article', $body);
-        $this->assertEquals($body['title'] ,$response->original['title']);
+        $this->assertEquals($body['title'], $response->original['title']);
     }
 
     public function testIfPostWithWrongBodyNotWork()
@@ -39,7 +39,8 @@ class ArticlePostTest extends TestCase
         ];
 
         $response = $this->json('POST', $this->url, $body);
-        $response->assertStatus(400);
-        $this->assertEquals('The title field is required.', $response->original->getMessages()['title'][0]);
+        $response->assertStatus(422);
+        $this->assertEquals('The given data was invalid.', $response->original['message']);
+        $this->assertEquals('The title field is required.', $response->original['errors']['title'][0]);
     }
 }

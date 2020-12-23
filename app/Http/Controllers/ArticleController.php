@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostArticleRequest;
+use App\Http\Requests\PutArticleRequest;
 use App\Models\Article;
-use App\Util\Validators\ApiValidator;
 use Illuminate\Http\Request;
 use \Illuminate\Http\Response;
 use \Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
 {
-    use ApiValidator;
-
     /**
      * Display a listing of the resource.
      *
@@ -25,18 +24,12 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param  PostArticleRequest  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(PostArticleRequest $request)
     {
         $body = $request->all();
-
-        $validator = ApiValidator::validateStoreArticle($body);
-
-        if ($validator !== true) {
-            return $validator;
-        }
 
         $article = new Article();
 
@@ -62,19 +55,13 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
+     * @param  PutArticleRequest  $request
      * @param  Article  $article
      * @return Response
      */
-    public function update(Request $request, Article $article)
+    public function update(PutArticleRequest $request, Article $article)
     {
         $body = $request->all();
-
-        $validator = ApiValidator::validateUpdateArticle($body);
-
-        if ($validator !== true) {
-            return $validator;
-        }
 
         $article->update($body);
 

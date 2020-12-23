@@ -20,7 +20,7 @@ class ArticleDeleteTest extends TestCase
 
     public function getUrl($id)
     {
-        return $this->url . '/' . $id; 
+        return $this->url . '/' . $id;
     }
 
     public function testIfDeleteWorks()

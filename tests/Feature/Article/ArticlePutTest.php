@@ -15,7 +15,7 @@ class ArticlePutTest extends TestCase
 
     public function getUrl($id)
     {
-        return $this->url . '/' . $id; 
+        return $this->url . '/' . $id;
     }
 
     /**
@@ -47,8 +47,8 @@ class ArticlePutTest extends TestCase
         $article = Article::factory()->create();
 
         $response = $this->json('PUT', $this->getUrl($article->id), $body);
-        $response->assertStatus(400);
-        $this->assertEquals('The title field is required.', $response->original->getMessages()['title'][0]);
+        $this->assertEquals('The given data was invalid.', $response->original['message']);
+        $this->assertEquals('The title field is required.', $response->original['errors']['title'][0]);
     }
 
     public function testIfPutWithNotExistingArticleNotWork()
@@ -61,6 +61,5 @@ class ArticlePutTest extends TestCase
         $response = $this->json('PUT', $this->getUrl(99999), $body);
 
         $response->assertStatus(404);
-        
     }
 }

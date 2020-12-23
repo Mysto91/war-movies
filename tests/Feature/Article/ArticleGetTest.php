@@ -9,7 +9,6 @@ use Tests\TestCase;
 
 class ArticleGetTest extends TestCase
 {
-
     use RefreshDatabase;
 
     private $url = '/api/articles';
@@ -21,7 +20,6 @@ class ArticleGetTest extends TestCase
      */
     public function testIfGetWorks()
     {
-
         $articlesList = Article::factory(5)->create();
 
         $response = $this->get($this->url);
