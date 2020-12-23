@@ -1,0 +1,3 @@
+Créer un controller à partir d'un model
+
+php artisan make:controller ArticleController --api --model=Article
