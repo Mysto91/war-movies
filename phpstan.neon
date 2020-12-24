@@ -1,6 +1,6 @@
 parameters:
     ignoreErrors:
-        - '#Call to an undefined static method [a-zA-Z0-9\\_]+\\Article::[a-zA-Z0-9_]+\(\).#'
+        - '#Call to an undefined static method App\\Model+[a-zA-Z0-9\\_]+\\[a-zA-Z0-9_]+::[a-zA-Z0-9_]+\(\).#'
     paths:
         - app
     level : 6
