@@ -5,45 +5,51 @@ namespace App\Http\Controllers;
 use App\Http\Requests\GetArticleRequest;
 use App\Http\Requests\PostArticleRequest;
 use App\Http\Requests\PutArticleRequest;
+use App\Http\Resources\ArticleResource;
 use App\Models\Article;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use \Illuminate\Http\Response;
-use \Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return JsonResponse
      */
-    public function index(GetArticleRequest $request) : Response
+    public function index(GetArticleRequest $request) : JsonResponse
     {
         $articleList = Article::getArticleList($request->validated());
-        return response($articleList)
-                ->header('X-Total-Count', (string) sizeof($articleList));
+
+        return ArticleResource::collection($articleList)
+                    ->response()
+                    ->setStatusCode(200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  PostArticleRequest  $request
-     * @return Article
+     * @return JsonResponse
      */
-    public function store(PostArticleRequest $request) : Article
+    public function store(PostArticleRequest $request) : JsonResponse
     {
-        return Article::create($request->validated());
+        return ArticleResource::make(Article::create($request->validated()))
+                    ->response()
+                    ->setStatusCode(201);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  Article  $article
-     * @return Article
+     * @return JsonResponse
      */
-    public function show(Article $article) : Article
+    public function show(Article $article) : JsonResponse
     {
-        return $article;
+        return ArticleResource::make($article)
+                    ->response()
+                    ->setStatusCode(200);
     }
 
     /**
@@ -51,15 +57,17 @@ class ArticleController extends Controller
      *
      * @param  PutArticleRequest  $request
      * @param  Article  $article
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(PutArticleRequest $request, Article $article) : Response
+    public function update(PutArticleRequest $request, Article $article) : JsonResponse
     {
         $body = $request->all();
 
         $article->update($body);
 
-        return response($article, 201);
+        return ArticleResource::make($article)
+                    ->response()
+                    ->setStatusCode(201);
     }
 
     /**

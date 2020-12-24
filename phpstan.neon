@@ -1,4 +1,6 @@
 parameters:
+    universalObjectCratesClasses:
+        - Illuminate\Http\Resources\Json\JsonResource
     ignoreErrors:
         - '#Call to an undefined static method App\\Model+[a-zA-Z0-9\\_]+\\[a-zA-Z0-9_]+::[a-zA-Z0-9_]+\(\).#'
     paths:

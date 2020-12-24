@@ -12,6 +12,7 @@
         "fideloper/proxy": "^4.4",
         "friendsofphp/php-cs-fixer": "^2.17",
         "fruitcake/laravel-cors": "^2.0",
+        "gdebrauwer/laravel-hateoas": "^1.5",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
