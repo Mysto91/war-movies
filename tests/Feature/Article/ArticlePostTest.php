@@ -35,9 +35,12 @@ class ArticlePostTest extends TestCase
 
         $response = $this->json('POST', $this->getUrl($user->api_token), $body);
 
+        $original = $response->original;
+
         $response->assertStatus(201);
         $this->assertDatabaseHas('articles', $body);
-        $this->assertEquals($body['title'], $response->original['title']);
+        $this->assertEquals($body['title'], $original['title']);
+        $this->assertEquals($body['description'], $original['description']);
     }
 
     public function testIfPostWithWrongBodyNotWork()

@@ -34,6 +34,15 @@ class ArticleDeleteTest extends TestCase
         $response->assertStatus(204);
     }
 
+    public function testIfDeleteNotExistingArticleNotWork()
+    {
+        $user = $this->getUser();
+
+        $response = $this->delete($this->getUrl(1234, $user->api_token));
+
+        $response->assertStatus(404);
+    }
+
     public function testIfDeleteWithoutNotAuthenticatedNotWork()
     {
         $user = $this->getUser();

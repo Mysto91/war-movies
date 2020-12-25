@@ -35,6 +35,16 @@ class ArticleGetTest extends TestCase
         $this->assertEquals(5, sizeof($response->original));
     }
 
+    public function testIfGetWithNoArticleWorks()
+    {
+        $user = $this->getUser();
+
+        $response = $this->get($this->getUrl($user->api_token));
+
+        $response->assertStatus(200);
+        $this->assertEquals(0, sizeof($response->original));
+    }
+
     public function testIfGetWithoutNotAuthenticatedNotWork()
     {
         $response = $this->get($this->getUrl(123456));

@@ -36,8 +36,12 @@ class ArticlePutTest extends TestCase
 
         $response = $this->json('PUT', $this->getUrl($article->id, $user->api_token), $body);
 
+        $original = $response->original;
+
         $response->assertStatus(201);
         $this->assertDatabaseHas('articles', $body);
+        $this->assertEquals($body['title'], $original['title']);
+        $this->assertEquals($body['description'], $original['description']);
     }
 
     public function testIfPutWithWrongBodyNotWork()
