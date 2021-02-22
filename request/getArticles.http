@@ -1,0 +1,1 @@
+GET {{localhost}}/api/articles/1?api_token={{token}}
