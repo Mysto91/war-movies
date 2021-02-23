@@ -24,6 +24,8 @@ class ArticleFactory extends Factory
         return [
             'title' => $this->faker->name,
             'description' => $this->faker->text(),
+            'rate' => $this->faker->randomFloat(1, 0, 5),
+            'format' => $this->faker->randomElement(['dvd', 'blu-ray'])
         ];
     }
 }

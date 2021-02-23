@@ -22,7 +22,8 @@ class ArticlesTableSeeder extends Seeder
             Article::create([
                 'title' => $faker->sentence,
                 'description' => $faker->paragraph,
-                'rate' => $faker->randomFloat(1, 0, 5)
+                'rate' => $faker->randomFloat(1, 0, 5),
+                'format' => $faker->randomElement(['dvd', 'blu-ray'])
             ]);
         }
     }

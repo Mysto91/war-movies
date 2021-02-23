@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddRateToArticles extends Migration
+class AddFormatToArticles extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +14,9 @@ class AddRateToArticles extends Migration
     public function up()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->string('rate', 5)
-                ->after('description')
-                ->nullable()
-                ->default('0');
+            $table->string('format', 20)
+                ->after('title')
+                ->nullable();
         });
     }
 
@@ -29,7 +28,7 @@ class AddRateToArticles extends Migration
     public function down()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->dropColumn('rate');
+            $tables->dropColumn('format');
         });
     }
 }
