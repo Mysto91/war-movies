@@ -18,7 +18,7 @@ class ArticlePostTest extends TestCase
     {
         return $this->url . '?api_token=' . $apiToken;
     }
-    
+
     /**
      * A basic feature test example.
      *
@@ -30,17 +30,23 @@ class ArticlePostTest extends TestCase
 
         $body = [
             'title' => 'mon titre',
-            'description' => 'ma description'
+            'description' => 'ma description',
+            'format' => 'dvd',
+            'rate' => '4.5'
         ];
 
         $response = $this->json('POST', $this->getUrl($user->api_token), $body);
 
-        $original = $response->original;
+        $responseBody = $response->decodeResponseJson();
+
+        $data = $responseBody['data'];
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('articles', $body);
-        $this->assertEquals($body['title'], $original['title']);
-        $this->assertEquals($body['description'], $original['description']);
+        $this->assertEquals($body['title'], $data['title']);
+        $this->assertEquals($body['description'], $data['description']);
+        $this->assertEquals($body['format'], $data['format']);
+        $this->assertEquals($body['rate'], $data['rate']);
     }
 
     public function testIfPostWithWrongBodyNotWork()

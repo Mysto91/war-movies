@@ -12,7 +12,9 @@ class Article extends Model
 
     protected $fillable = [
         'title',
-        'description'
+        'description',
+        'rate',
+        'format'
     ];
 
     protected $table = 'articles';
@@ -23,9 +25,9 @@ class Article extends Model
      * @param array $params
      * @return Collection<Article>
      */
-    public static function getArticleList($params) : Collection
+    public static function getArticleList($params): Collection
     {
         return self::select()
-                    ->get();
+            ->get();
     }
 }

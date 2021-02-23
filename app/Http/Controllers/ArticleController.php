@@ -17,13 +17,13 @@ class ArticleController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(GetArticleRequest $request) : JsonResponse
+    public function index(GetArticleRequest $request): JsonResponse
     {
         $articleList = Article::getArticleList($request->validated());
 
         return ArticleResource::collection($articleList)
-                    ->response()
-                    ->setStatusCode(200);
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -32,11 +32,11 @@ class ArticleController extends Controller
      * @param  PostArticleRequest  $request
      * @return JsonResponse
      */
-    public function store(PostArticleRequest $request) : JsonResponse
+    public function store(PostArticleRequest $request): JsonResponse
     {
         return ArticleResource::make(Article::create($request->validated()))
-                    ->response()
-                    ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -45,11 +45,11 @@ class ArticleController extends Controller
      * @param  Article  $article
      * @return JsonResponse
      */
-    public function show(Article $article) : JsonResponse
+    public function show(Article $article): JsonResponse
     {
         return ArticleResource::make($article)
-                    ->response()
-                    ->setStatusCode(200);
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -59,15 +59,15 @@ class ArticleController extends Controller
      * @param  Article  $article
      * @return JsonResponse
      */
-    public function update(PutArticleRequest $request, Article $article) : JsonResponse
+    public function update(PutArticleRequest $request, Article $article): JsonResponse
     {
         $body = $request->all();
 
         $article->update($body);
 
         return ArticleResource::make($article)
-                    ->response()
-                    ->setStatusCode(201);
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -76,7 +76,7 @@ class ArticleController extends Controller
      * @param  Article  $article
      * @return Response
      */
-    public function destroy(Article $article) : Response
+    public function destroy(Article $article): Response
     {
         $article->delete();
 

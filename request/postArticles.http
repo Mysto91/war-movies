@@ -1,0 +1,8 @@
+POST {{localhost}}/api/articles?api_token={{token}}
+
+{
+    "title" : "montitre",
+    "description" : "ma description",
+    "format" : "dvd",
+    "rate" : "5"
+}

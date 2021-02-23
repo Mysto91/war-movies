@@ -29,19 +29,25 @@ class ArticlePutTest extends TestCase
 
         $body = [
             'title' => 'nouveau titre',
-            'description' => 'nouvelle description'
+            'description' => 'nouvelle description',
+            'format' => 'blu-ray',
+            'rate' => '4.5'
         ];
 
         $article = Article::factory()->create();
 
         $response = $this->json('PUT', $this->getUrl($article->id, $user->api_token), $body);
 
-        $original = $response->original;
+        $responseBody = $response->decodeResponseJson();
+
+        $data = $responseBody['data'];
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('articles', $body);
-        $this->assertEquals($body['title'], $original['title']);
-        $this->assertEquals($body['description'], $original['description']);
+        $this->assertEquals($body['title'], $data['title']);
+        $this->assertEquals($body['description'], $data['description']);
+        $this->assertEquals($body['format'], $data['format']);
+        $this->assertEquals($body['rate'], $data['rate']);
     }
 
     public function testIfPutWithWrongBodyNotWork()

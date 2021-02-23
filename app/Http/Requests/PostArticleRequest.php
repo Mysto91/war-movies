@@ -26,6 +26,8 @@ class PostArticleRequest extends FormRequest
         return [
             'title' => 'required|max:255',
             'description' => 'required',
+            'format' => 'present|max:10|in:dvd,blu-ray',
+            'rate' => 'present|numeric',
         ];
     }
 }

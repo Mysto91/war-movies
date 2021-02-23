@@ -32,7 +32,14 @@ class ArticleGetByIdTest extends TestCase
         $response = $this->get($this->getUrl($article->id, $user->api_token));
 
         $response->assertStatus(200);
-        $this->assertEquals($article->id, $response->original['id']);
+
+        $responseBody = $response->decodeResponseJson();
+
+        $data = $responseBody['data'];
+
+        $this->assertEquals($article->id, $data['id']);
+        $this->assertStringContainsString($this->url . '/' . $article->id, $data['_links'][0]['href']);
+        $this->assertStringContainsString($this->url, $data['_links'][1]['href']);
     }
 
     public function testIfGetWithoutNotAuthenticatedNotWork()
