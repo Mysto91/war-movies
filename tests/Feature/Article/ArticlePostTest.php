@@ -54,13 +54,23 @@ class ArticlePostTest extends TestCase
         $user = $this->getUser();
 
         $body = [
+            'title' => 'mon titre',
             'description' => 'ma description'
         ];
 
         $response = $this->json('POST', $this->getUrl($user->api_token), $body);
         $response->assertStatus(422);
-        $this->assertEquals('The given data was invalid.', $response->original['message']);
-        $this->assertEquals('The title field is required.', $response->original['errors']['title'][0]);
+
+        $expected = [
+            "format" => [
+                "The format field must be present."
+            ],
+            "rate" => [
+                "The rate field must be present."
+            ]
+        ];
+
+        $this->assertEquals(json_encode($expected), $response->getContent());
     }
 
     public function testIfPostWithoutNotAuthenticatedNotWork()

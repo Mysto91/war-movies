@@ -61,8 +61,20 @@ class ArticlePutTest extends TestCase
         $article = Article::factory()->create();
 
         $response = $this->json('PUT', $this->getUrl($article->id, $user->api_token), $body);
-        $this->assertEquals('The given data was invalid.', $response->original['message']);
-        $this->assertEquals('The title field is required.', $response->original['errors']['title'][0]);
+
+        $expected = [
+            "title" => [
+                "The title field is required."
+            ],
+            "format" => [
+                "The format field must be present."
+            ],
+            "rate" => [
+                "The rate field must be present."
+            ]
+        ];
+
+        $this->assertEquals(json_encode($expected), $response->getContent());
     }
 
     public function testIfPutWithNotExistingArticleNotWork()

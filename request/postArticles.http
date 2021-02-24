@@ -1,4 +1,4 @@
-POST {{localhost}}/api/articles?api_token={{token}}
+POST {{localhost}}/api/articles?api_token={{token}} HTTP/1.1
 
 {
     "title" : "montitre",
