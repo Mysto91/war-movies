@@ -28,11 +28,14 @@ class ArticlePostTest extends TestCase
     {
         $user = $this->getUser();
 
+        $faker = \Faker\Factory::create();
+
         $body = [
-            'title' => 'mon titre',
-            'description' => 'ma description',
-            'format' => 'dvd',
-            'rate' => '4.5'
+            'title' => $faker->name,
+            'description' => $faker->text(100),
+            'format' => $faker->randomElement(['dvd', 'blu-ray']),
+            'rate' => $faker->randomFloat(1, 0, 5),
+            'trailerUrl' => $faker->url
         ];
 
         $response = $this->json('POST', $this->getUrl($user->api_token), $body);

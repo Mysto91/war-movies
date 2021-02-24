@@ -28,6 +28,7 @@ class PutArticleRequest extends FormRequest
             'description' => 'required',
             'format' => 'present|max:10|in:dvd,blu-ray',
             'rate' => 'present|numeric',
+            'trailerUrl' => 'present|url',
         ];
     }
 }

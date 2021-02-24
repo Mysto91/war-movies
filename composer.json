@@ -16,7 +16,8 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
-        "phpstan/phpstan": "^0.12.64"
+        "phpstan/phpstan": "^0.12.64",
+        "sofa/eloquence-mappable": "^7.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -23,7 +23,8 @@ class ArticlesTableSeeder extends Seeder
                 'title' => $faker->sentence,
                 'description' => $faker->paragraph,
                 'rate' => $faker->randomFloat(1, 0, 5),
-                'format' => $faker->randomElement(['dvd', 'blu-ray'])
+                'format' => $faker->randomElement(['dvd', 'blu-ray']),
+                'trailer_url' => $faker->url,
             ]);
         }
     }

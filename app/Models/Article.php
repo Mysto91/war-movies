@@ -5,16 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Sofa\Eloquence\Eloquence;
+use Sofa\Eloquence\Mappable;
 
 class Article extends Model
 {
-    use HasFactory;
+    use HasFactory, Mappable, Eloquence;
 
     protected $fillable = [
         'title',
         'description',
         'rate',
-        'format'
+        'format',
+        'trailerUrl'
+    ];
+
+    protected $maps = [
+        'trailerUrl' => 'trailer_url'
     ];
 
     protected $table = 'articles';
