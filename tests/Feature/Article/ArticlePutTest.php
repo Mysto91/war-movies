@@ -27,11 +27,14 @@ class ArticlePutTest extends TestCase
     {
         $user = $this->getUser();
 
+        $faker = \Faker\Factory::create();
+
         $body = [
-            'title' => 'nouveau titre',
-            'description' => 'nouvelle description',
-            'format' => 'blu-ray',
-            'rate' => '4.5'
+            'title' => $faker->name,
+            'description' => $faker->text(100),
+            'format' => $faker->randomElement(['dvd', 'blu-ray']),
+            'rate' => $faker->randomFloat(1, 0, 5),
+            'trailerUrl' => $faker->url
         ];
 
         $article = Article::factory()->create();
@@ -43,11 +46,12 @@ class ArticlePutTest extends TestCase
         $data = $responseBody['data'];
 
         $response->assertStatus(201);
-        $this->assertDatabaseHas('articles', $body);
+
         $this->assertEquals($body['title'], $data['title']);
         $this->assertEquals($body['description'], $data['description']);
         $this->assertEquals($body['format'], $data['format']);
         $this->assertEquals($body['rate'], $data['rate']);
+        $this->assertEquals($body['trailerUrl'], $data['trailerUrl']);
     }
 
     public function testIfPutWithWrongBodyNotWork()
@@ -71,7 +75,10 @@ class ArticlePutTest extends TestCase
             ],
             "rate" => [
                 "The rate field must be present."
-            ]
+            ],
+            "trailerUrl" => [
+                "The trailer url field must be present."
+            ],
         ];
 
         $this->assertEquals(json_encode($expected), $response->getContent());

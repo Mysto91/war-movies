@@ -22,6 +22,7 @@ class ArticleResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'format' => $this->format,
+            'rate' => $this->rate,
             'trailerUrl' => $this->trailer_url,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,

@@ -20,6 +20,9 @@ class Article extends Model
         'trailerUrl'
     ];
 
+    /**
+     * @var array $maps
+     */
     protected $maps = [
         'trailerUrl' => 'trailer_url'
     ];

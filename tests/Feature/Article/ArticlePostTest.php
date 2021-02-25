@@ -45,11 +45,12 @@ class ArticlePostTest extends TestCase
         $data = $responseBody['data'];
 
         $response->assertStatus(201);
-        $this->assertDatabaseHas('articles', $body);
+
         $this->assertEquals($body['title'], $data['title']);
         $this->assertEquals($body['description'], $data['description']);
         $this->assertEquals($body['format'], $data['format']);
         $this->assertEquals($body['rate'], $data['rate']);
+        $this->assertEquals($body['trailerUrl'], $data['trailerUrl']);
     }
 
     public function testIfPostWithWrongBodyNotWork()
@@ -70,6 +71,9 @@ class ArticlePostTest extends TestCase
             ],
             "rate" => [
                 "The rate field must be present."
+            ],
+            "trailerUrl" => [
+                "The trailer url field must be present."
             ]
         ];
 
