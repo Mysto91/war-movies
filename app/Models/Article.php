@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Sofa\Eloquence\Eloquence;
 use Sofa\Eloquence\Mappable;
@@ -30,14 +31,13 @@ class Article extends Model
     protected $table = 'articles';
 
     /**
-     * Undocumented function
-     *
      * @param array $params
-     * @return Collection<Article>
+     *
+     * @return LengthAwarePaginator
      */
-    public static function getArticleList($params): Collection
+    public static function getArticleList($params): LengthAwarePaginator
     {
         return self::select()
-            ->get();
+            ->paginate(10);
     }
 }
