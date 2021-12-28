@@ -38,6 +38,6 @@ class Article extends Model
     public static function getArticleList($params): LengthAwarePaginator
     {
         return self::select()
-            ->paginate(10);
+            ->paginate($params['perPage'] ?? 10);
     }
 }

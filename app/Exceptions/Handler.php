@@ -8,6 +8,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -59,6 +60,10 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (AuthenticationException $e, $request) {
             return $this->getResponse(401, 'Unauthenticated.');
+        });
+
+        $this->renderable(function (ServiceUnavailableHttpException $e, $request) {
+            return $this->getResponse(503, 'Unavailable Service.');
         });
 
         $this->renderable(function (Exception $e, $request) {

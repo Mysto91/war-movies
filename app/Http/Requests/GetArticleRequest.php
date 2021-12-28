@@ -22,7 +22,8 @@ class GetArticleRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            //
+            'perPage' => 'integer',
+            'page' => 'integer',
         ];
     }
 }

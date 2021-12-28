@@ -29,4 +29,19 @@ abstract class TestCase extends BaseTestCase
     {
         return \Faker\Factory::create();
     }
+
+    protected function getUrlWithParams($url, array $params)
+    {
+        if (!$params) {
+            return $url;
+        }
+
+        $paramsConcat = '';
+
+        foreach ($params as $key => $param) {
+            $paramsConcat = "{$key}={$param}&{$paramsConcat}";
+        }
+
+        return "{$url}?{$paramsConcat}";
+    }
 }
