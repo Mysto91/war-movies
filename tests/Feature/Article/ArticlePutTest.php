@@ -2,9 +2,7 @@
 
 namespace Tests\Feature\Article;
 
-use App\Models\Article;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ArticlePutTest extends TestCase
@@ -15,7 +13,7 @@ class ArticlePutTest extends TestCase
 
     public function getUrl($id, $apiToken)
     {
-        return $this->url . '/' . $id . '?api_token=' . $apiToken;
+        return "{$this->url}/$id?api_token=$apiToken";
     }
 
     /**
@@ -27,7 +25,7 @@ class ArticlePutTest extends TestCase
     {
         $user = $this->getUser();
 
-        $faker = \Faker\Factory::create();
+        $faker = $this->getFaker();
 
         $body = [
             'title' => $faker->name,
@@ -37,7 +35,7 @@ class ArticlePutTest extends TestCase
             'trailerUrl' => $faker->url
         ];
 
-        $article = Article::factory()->create();
+        $article = $this->getArticle();
 
         $response = $this->json('PUT', $this->getUrl($article->id, $user->api_token), $body);
 
@@ -62,7 +60,7 @@ class ArticlePutTest extends TestCase
             'description' => 'ma description'
         ];
 
-        $article = Article::factory()->create();
+        $article = $this->getArticle();
 
         $response = $this->json('PUT', $this->getUrl($article->id, $user->api_token), $body);
 
@@ -96,13 +94,15 @@ class ArticlePutTest extends TestCase
         $response = $this->json('PUT', $this->getUrl(999999, $user->api_token), $body);
 
         $response->assertStatus(404);
+        $this->assertEquals(['404' => 'The article does not exist.'], $response->original);
     }
 
     public function testIfPutWithoutNotAuthenticatedNotWork()
     {
-        $article = Article::factory()->create();
+        $article = $this->getArticle();
 
         $response = $this->json('PUT', $this->getUrl($article->id, 123456), []);
         $response->assertStatus(401);
+        $this->assertEquals(['401' => 'Unauthenticated.'], $response->original);
     }
 }

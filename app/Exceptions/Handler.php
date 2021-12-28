@@ -2,7 +2,12 @@
 
 namespace App\Exceptions;
 
+use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -34,7 +39,41 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            //
         });
+
+        $this->renderable(function (MethodNotAllowedHttpException $e, $request) {
+            if ($request->is('api/*')) {
+                return $this->getResponse(405, 'The method is not allowed.');
+            }
+        });
+
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            if ($request->is('api/*')) {
+                if ($request->is('api/articles/*')) {
+                    return $this->getResponse(404, 'The article does not exist.');
+                }
+
+                return $this->getResponse(404, 'The ressource does not exist.');
+            }
+        });
+
+        $this->renderable(function (AuthenticationException $e, $request) {
+            return $this->getResponse(401, 'Unauthenticated.');
+        });
+
+        $this->renderable(function (Exception $e, $request) {
+            return $this->getResponse(500, 'Internal server error.');
+        });
+    }
+
+    /**
+     * @param integer $httpCode
+     * @param string $msg
+     *
+     * @return JsonResponse
+     */
+    private function getResponse($httpCode, $msg): JsonResponse
+    {
+        return response()->json([$httpCode => $msg], $httpCode);
     }
 }

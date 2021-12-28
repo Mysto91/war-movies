@@ -2,9 +2,7 @@
 
 namespace Tests\Feature\Article;
 
-use App\Models\Article;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ArticleGetByIdTest extends TestCase
@@ -15,7 +13,7 @@ class ArticleGetByIdTest extends TestCase
 
     public function getUrl($id, $apiToken)
     {
-        return $this->url . '/' . $id  . '?api_token=' . $apiToken;
+        return "{$this->url}/$id?api_token=$apiToken";
     }
 
     /**
@@ -27,7 +25,7 @@ class ArticleGetByIdTest extends TestCase
     {
         $user = $this->getUser();
 
-        $article = Article::factory()->create();
+        $article = $this->getArticle();
 
         $response = $this->get($this->getUrl($article->id, $user->api_token));
 
@@ -44,20 +42,23 @@ class ArticleGetByIdTest extends TestCase
 
     public function testIfGetWithoutNotAuthenticatedNotWork()
     {
-        $article = Article::factory()->create();
+        $article = $this->getArticle();
 
         $response = $this->get($this->getUrl($article->id, 1234));
-        $response->assertStatus(302);
+
+        $response->assertStatus(401);
+        $this->assertEquals(['401' => 'Unauthenticated.'], $response->original);
     }
 
     public function testIfGetWithNotExistingArticleNotWork()
     {
         $user = $this->getUser();
 
-        $article = Article::factory()->create();
+        $this->getArticle();
 
         $response = $this->get($this->getUrl(9999, $user->api_token));
 
         $response->assertStatus(404);
+        $this->assertEquals(['404' => 'The article does not exist.'], $response->original);
     }
 }

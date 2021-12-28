@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\Article;
 use App\Models\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -12,5 +13,20 @@ abstract class TestCase extends BaseTestCase
     protected function getUser()
     {
         return User::factory()->create();
+    }
+
+    protected function getArticle()
+    {
+        return Article::factory()->create();
+    }
+
+    protected function getArticleList($nb)
+    {
+        return Article::factory($nb)->create();
+    }
+
+    protected function getFaker()
+    {
+        return \Faker\Factory::create();
     }
 }

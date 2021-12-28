@@ -2,9 +2,7 @@
 
 namespace Tests\Feature\Article;
 
-use App\Models\Article;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ArticleGetTest extends TestCase
@@ -15,7 +13,7 @@ class ArticleGetTest extends TestCase
 
     public function getUrl($apiToken)
     {
-        return $this->url . '?api_token=' . $apiToken;
+        return "{$this->url}?api_token=$apiToken";
     }
 
     /**
@@ -27,7 +25,7 @@ class ArticleGetTest extends TestCase
     {
         $user = $this->getUser();
 
-        $articlesList = Article::factory(5)->create();
+        $this->getArticleList(5);
 
         $response = $this->get($this->getUrl($user->api_token));
 
@@ -48,6 +46,8 @@ class ArticleGetTest extends TestCase
     public function testIfGetWithoutNotAuthenticatedNotWork()
     {
         $response = $this->get($this->getUrl(123456));
-        $response->assertStatus(302);
+
+        $response->assertStatus(401);
+        $this->assertEquals(['401' => 'Unauthenticated.'], $response->original);
     }
 }
