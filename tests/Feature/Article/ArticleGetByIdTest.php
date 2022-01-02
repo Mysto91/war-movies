@@ -9,7 +9,7 @@ class ArticleGetByIdTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $url = '/api/articles';
+    private $url = 'api/articles';
 
     public function getUrl($id, $apiToken)
     {
