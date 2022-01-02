@@ -56,6 +56,10 @@ class Handler extends ExceptionHandler
                     return $this->getResponse(404, 'The article does not exist.', $e);
                 }
 
+                if ($request->is('api/users/*')) {
+                    return $this->getResponse(404, 'The user does not exist.', $e);
+                }
+
                 return $this->getResponse(404, 'The ressource does not exist.', $e);
             }
         });

@@ -15,6 +15,11 @@ abstract class TestCase extends BaseTestCase
         return User::factory()->create();
     }
 
+    protected function getUserList($nb)
+    {
+        return User::factory($nb)->create();
+    }
+
     protected function getArticle()
     {
         return Article::factory()->create();
