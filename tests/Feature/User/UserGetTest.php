@@ -1,58 +1,38 @@
 <?php
 
-namespace Tests\Feature\Article;
+namespace Tests\Feature\User;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ArticleGetTest extends TestCase
+class UserGetTest extends TestCase
 {
     use RefreshDatabase;
 
-    private $url = 'api/articles';
+    private $url = 'api/users';
 
-    public function getUrl($params = [])
+    private function getUrl($params = [])
     {
         return $this->getUrlWithParams($this->url, $params);
     }
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
     public function testIfGetWorks()
     {
-        $user = $this->getUser();
+        $userList = $this->getUserList(3);
 
-        $this->getArticleList(5);
-
-        $response = $this->get($this->getUrl(['api_token' => $user->api_token]));
+        $response = $this->get($this->getUrl());
 
         $response->assertStatus(200);
-        $this->assertEquals(5, sizeof($response->original));
-    }
-
-    public function testIfGetWithNoArticleWorks()
-    {
-        $user = $this->getUser();
-
-        $response = $this->get($this->getUrl(['api_token' => $user->api_token]));
-
-        $response->assertStatus(200);
-        $this->assertEquals(0, sizeof($response->original));
+        $this->assertCount(count($userList), $response->original);
     }
 
     public function testIfGetWithPaginationWorks()
     {
-        $user = $this->getUser();
-
-        $this->getArticleList(10);
+        $this->getUserList(10);
 
         $params = [
             'page' => 2,
-            'perPage' => 3,
-            'api_token' => $user->api_token
+            'perPage' => 3
         ];
 
         $response = $this->get($this->getUrl($params));
@@ -63,20 +43,17 @@ class ArticleGetTest extends TestCase
         $this->assertEquals([4, 5, 6], array_column($output, 'id'));
     }
 
-    public function testIfGetWithoutNotAuthenticatedNotWork()
+    public function testIfGetWithNoUsersWorks()
     {
-        $response = $this->get($this->getUrl(['api_token' => 1234]));
+        $response = $this->get($this->getUrl());
 
-        $response->assertStatus(401);
-        $this->assertEquals(['401' => 'Unauthenticated.'], $response->original);
+        $response->assertStatus(200);
+        $this->assertCount(0, $response->original);
     }
 
     public function testIfGetWithWongParamPerPageNotWork()
     {
-        $user = $this->getUser();
-
         $params = [
-            'api_token' => $user->api_token,
             'perPage' => 'wrong'
         ];
 
@@ -94,10 +71,7 @@ class ArticleGetTest extends TestCase
 
     public function testIfGetWithWongParamPageNotWork()
     {
-        $user = $this->getUser();
-
         $params = [
-            'api_token' => $user->api_token,
             'page' => 'wrong'
         ];
 

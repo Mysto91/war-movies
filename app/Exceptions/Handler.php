@@ -6,6 +6,8 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
@@ -44,41 +46,51 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (MethodNotAllowedHttpException $e, $request) {
             if ($request->is('api/*')) {
-                return $this->getResponse(405, 'The method is not allowed.');
+                return $this->getResponse(405, 'The method is not allowed.', $e);
             }
         });
 
         $this->renderable(function (NotFoundHttpException $e, $request) {
             if ($request->is('api/*')) {
                 if ($request->is('api/articles/*')) {
-                    return $this->getResponse(404, 'The article does not exist.');
+                    return $this->getResponse(404, 'The article does not exist.', $e);
                 }
 
-                return $this->getResponse(404, 'The ressource does not exist.');
+                if ($request->is('api/users/*')) {
+                    return $this->getResponse(404, 'The user does not exist.', $e);
+                }
+
+                return $this->getResponse(404, 'The ressource does not exist.', $e);
             }
         });
 
         $this->renderable(function (AuthenticationException $e, $request) {
-            return $this->getResponse(401, 'Unauthenticated.');
+            return $this->getResponse(401, 'Unauthenticated.', $e);
+        });
+
+        $this->renderable(function (AccessDeniedHttpException  $e, $request) {
+            return $this->getResponse(403, 'This action is unauthorized.', $e);
         });
 
         $this->renderable(function (ServiceUnavailableHttpException $e, $request) {
-            return $this->getResponse(503, 'Unavailable Service.');
+            return $this->getResponse(503, 'Unavailable Service.', $e);
         });
 
         $this->renderable(function (Exception $e, $request) {
-            return $this->getResponse(500, 'Internal server error.');
+            return $this->getResponse(500, 'Internal server error.', $e);
         });
     }
 
     /**
      * @param integer $httpCode
      * @param string $msg
+     * @param Exception $exc
      *
      * @return JsonResponse
      */
-    private function getResponse($httpCode, $msg): JsonResponse
+    private function getResponse($httpCode, $msg, $exc): JsonResponse
     {
+        Log::info($exc);
         return response()->json([$httpCode => $msg], $httpCode);
     }
 }
