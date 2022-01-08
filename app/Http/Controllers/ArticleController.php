@@ -34,7 +34,12 @@ class ArticleController extends Controller
      */
     public function store(PostArticleRequest $request): JsonResponse
     {
-        return ArticleResource::make(Article::create($request->validated()))
+        $params = $request->validated();
+
+        $params['trailer_url'] = $params['trailerUrl'];
+        $params['release_date'] = $params['releaseDate'];
+
+        return ArticleResource::make(Article::create($params))
             ->response()
             ->setStatusCode(201);
     }
@@ -62,6 +67,30 @@ class ArticleController extends Controller
     public function update(PutArticleRequest $request, Article $article): JsonResponse
     {
         $body = $request->all();
+
+        if (isset($body['title'])) {
+            $article->title = $body['title'];
+        }
+
+        if (isset($body['description'])) {
+            $article->description = $body['description'];
+        }
+
+        if (isset($body['format'])) {
+            $article->format = $body['format'];
+        }
+
+        if (isset($body['rate'])) {
+            $article->rate = $body['rate'];
+        }
+
+        if (isset($body['trailerUrl'])) {
+            $article->trailer_url = $body['trailerUrl'];
+        }
+
+        if (isset($body['releaseDate'])) {
+            $article->release_date = $body['releaseDate'];
+        }
 
         $article->update($body);
 

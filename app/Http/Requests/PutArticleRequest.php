@@ -22,11 +22,12 @@ class PutArticleRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            'title' => 'required|max:255',
-            'description' => 'required',
-            'format' => 'present|max:10|in:dvd,blu-ray',
-            'rate' => 'present|numeric',
-            'trailerUrl' => 'present|url',
+            'title' => 'max:255',
+            'description' => 'max:255',
+            'format' => 'max:10|in:dvd,blu-ray',
+            'rate' => 'numeric',
+            'trailerUrl' => 'url',
+            'releaseDate' => 'date:Y-m-d',
         ];
     }
 }
