@@ -27,6 +27,7 @@ class PostArticleRequest extends ApiFormRequest
             'format' => 'present|max:10|in:dvd,blu-ray',
             'rate' => 'present|numeric',
             'trailerUrl' => 'present|url',
+            'releaseDate' => 'present|date:Y-m-d',
         ];
     }
 }

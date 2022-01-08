@@ -14,7 +14,9 @@ class Article extends Model
         'title',
         'description',
         'rate',
-        'format'
+        'format',
+        'trailer_url',
+        'release_date'
     ];
 
     protected $table = 'articles';
