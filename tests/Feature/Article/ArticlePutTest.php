@@ -32,6 +32,7 @@ class ArticlePutTest extends TestCase
             'description' => $faker->text(100),
             'format' => $faker->randomElement(['dvd', 'blu-ray']),
             'rate' => $faker->randomFloat(1, 0, 5),
+            'releaseDate' => $faker->date(),
             'trailerUrl' => $faker->url
         ];
 
@@ -49,37 +50,8 @@ class ArticlePutTest extends TestCase
         $this->assertEquals($body['description'], $data['description']);
         $this->assertEquals($body['format'], $data['format']);
         $this->assertEquals($body['rate'], $data['rate']);
+        $this->assertEquals($body['releaseDate'], $data['releaseDate']);
         $this->assertEquals($body['trailerUrl'], $data['trailerUrl']);
-    }
-
-    public function testIfPutWithWrongBodyNotWork()
-    {
-        $user = $this->getUser();
-
-        $body = [
-            'description' => 'ma description'
-        ];
-
-        $article = $this->getArticle();
-
-        $response = $this->json('PUT', $this->getUrl($article->id, $user->api_token), $body);
-
-        $expected = [
-            "title" => [
-                "The title field is required."
-            ],
-            "format" => [
-                "The format field must be present."
-            ],
-            "rate" => [
-                "The rate field must be present."
-            ],
-            "trailerUrl" => [
-                "The trailer url field must be present."
-            ],
-        ];
-
-        $this->assertEquals(json_encode($expected), $response->getContent());
     }
 
     public function testIfPutWithNotExistingArticleNotWork()

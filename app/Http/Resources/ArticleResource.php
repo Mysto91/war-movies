@@ -24,6 +24,7 @@ class ArticleResource extends JsonResource
             'format' => $this->format,
             'rate' => $this->rate,
             'trailerUrl' => $this->trailer_url,
+            'releaseDate' => $this->release_date,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             '_links' => formatLinks::links($request->path(), $this->id)

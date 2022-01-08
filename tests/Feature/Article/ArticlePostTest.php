@@ -32,6 +32,7 @@ class ArticlePostTest extends TestCase
             'description' => $faker->text(100),
             'format' => $faker->randomElement(['dvd', 'blu-ray']),
             'rate' => $faker->randomFloat(1, 0, 5),
+            'releaseDate' => $faker->date(),
             'trailerUrl' => $faker->url
         ];
 
@@ -71,6 +72,9 @@ class ArticlePostTest extends TestCase
             ],
             "trailerUrl" => [
                 "The trailer url field must be present."
+            ],
+            "releaseDate" => [
+                "The release date field must be present."
             ]
         ];
 
