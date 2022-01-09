@@ -20,8 +20,8 @@ class ArticlesTableSeeder extends Seeder
 
         for ($i = 0; $i < 50; $i++) {
             Article::create([
-                'title' => $faker->sentence,
-                'description' => $faker->paragraph,
+                'title' => $faker->catchPhrase,
+                'description' => $faker->realText(150),
                 'rate' => $faker->randomFloat(1, 0, 5),
                 'format' => $faker->randomElement(['dvd', 'blu-ray']),
                 'trailer_url' => $faker->url,
