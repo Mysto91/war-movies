@@ -6,6 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+/**
+ * App\Models\Article
+ *
+ * @property string $title
+ * @property string $description
+ * @property string $format
+ * @property float $rate
+ * @property string $trailer_url
+ * @property string $release_date
+ */
 class Article extends Model
 {
     use HasFactory;
