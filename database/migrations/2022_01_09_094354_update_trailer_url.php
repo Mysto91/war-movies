@@ -14,7 +14,11 @@ class UpdateTrailerUrl extends Migration
      */
     public function up()
     {
-        DB::statement('ALTER TABLE `articles` MODIFY COLUMN `trailer_url` VARCHAR(255)');
+        if (!env('testing')) {
+            Schema::table('articles', function (Blueprint $table) {
+                $table->string('trailer_url', 255)->change();
+            });
+        }
     }
 
     /**
@@ -24,6 +28,9 @@ class UpdateTrailerUrl extends Migration
      */
     public function down()
     {
-        DB::statement('ALTER TABLE `articles` MODIFY COLUMN `trailer_url` VARCHAR(100)');
+        //DB::statement('ALTER TABLE `articles` MODIFY COLUMN `trailer_url` VARCHAR(100)');
+        Schema::table('articles', function (Blueprint $table) {
+            $table->string('trailer_url', 100)->change();
+        });
     }
 }
