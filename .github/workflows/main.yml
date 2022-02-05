@@ -1,6 +1,6 @@
 name: Laravel
 
-on: push
+on: [push, merge]
 
 jobs:
   tests:
@@ -15,5 +15,7 @@ jobs:
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-      - name: Execute tests (Unit and Feature tests) via PHPUnit
+      - name: phpstan
+        run: vendor/bin/phpstan analyse
+      - name: PHPUnit
         run: vendor/bin/phpunit
