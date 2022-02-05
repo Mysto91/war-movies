@@ -33,7 +33,8 @@ class ArticlePostTest extends TestCase
             'format' => $faker->randomElement(['dvd', 'blu-ray']),
             'rate' => $faker->randomFloat(1, 0, 5),
             'releaseDate' => $faker->date(),
-            'trailerUrl' => $faker->url
+            'trailerUrl' => $faker->url,
+            'imageUrl' => $faker->url
         ];
 
         $response = $this->json('POST', $this->getUrl($user->api_token), $body);
@@ -49,6 +50,7 @@ class ArticlePostTest extends TestCase
         $this->assertEquals($body['format'], $data['format']);
         $this->assertEquals($body['rate'], $data['rate']);
         $this->assertEquals($body['trailerUrl'], $data['trailerUrl']);
+        $this->assertEquals($body['imageUrl'], $data['imageUrl']);
     }
 
     public function testIfPostWithWrongBodyNotWork()
@@ -72,6 +74,9 @@ class ArticlePostTest extends TestCase
             ],
             "trailerUrl" => [
                 "The trailer url field must be present."
+            ],
+            "imageUrl" => [
+                "The image url field must be present."
             ],
             "releaseDate" => [
                 "The release date field must be present."

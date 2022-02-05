@@ -14,6 +14,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
  * @property string $format
  * @property float $rate
  * @property string $trailer_url
+ * @property string $image_url
  * @property string $release_date
  */
 class Article extends Model
@@ -26,7 +27,8 @@ class Article extends Model
         'rate',
         'format',
         'trailer_url',
-        'release_date'
+        'release_date',
+        'image_url',
     ];
 
     protected $table = 'articles';

@@ -37,6 +37,7 @@ class ArticleController extends Controller
         $params = $request->validated();
 
         $params['trailer_url'] = $params['trailerUrl'];
+        $params['image_url'] = $params['imageUrl'];
         $params['release_date'] = $params['releaseDate'];
 
         return ArticleResource::make(Article::create($params))
@@ -86,6 +87,10 @@ class ArticleController extends Controller
 
         if (isset($body['trailerUrl'])) {
             $article->trailer_url = $body['trailerUrl'];
+        }
+
+        if (isset($body['imageUrl'])) {
+            $article->image_url = $body['imageUrl'];
         }
 
         if (isset($body['releaseDate'])) {
