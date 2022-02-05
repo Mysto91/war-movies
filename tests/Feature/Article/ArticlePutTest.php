@@ -33,7 +33,8 @@ class ArticlePutTest extends TestCase
             'format' => $faker->randomElement(['dvd', 'blu-ray']),
             'rate' => $faker->randomFloat(1, 0, 5),
             'releaseDate' => $faker->date(),
-            'trailerUrl' => $faker->url
+            'trailerUrl' => $faker->url,
+            'imageUrl' => $faker->url
         ];
 
         $article = $this->getArticle();
@@ -52,6 +53,7 @@ class ArticlePutTest extends TestCase
         $this->assertEquals($body['rate'], $data['rate']);
         $this->assertEquals($body['releaseDate'], $data['releaseDate']);
         $this->assertEquals($body['trailerUrl'], $data['trailerUrl']);
+        $this->assertEquals($body['imageUrl'], $data['imageUrl']);
     }
 
     public function testIfPutWithNotExistingArticleNotWork()
