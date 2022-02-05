@@ -3,9 +3,8 @@ name: Laravel
 on: [push, pull_request]
 
 jobs:
-  tests:
+  build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
         with:
@@ -15,7 +14,11 @@ jobs:
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
       - name: phpstan
         run: vendor/bin/phpstan analyse
-      - name: PHPUnit
+      - name: phpunit
         run: vendor/bin/phpunit
