@@ -25,7 +25,10 @@ class ArticleFactory extends Factory
             'title' => $this->faker->name,
             'description' => $this->faker->text(),
             'rate' => $this->faker->randomFloat(1, 0, 5),
-            'format' => $this->faker->randomElement(['dvd', 'blu-ray'])
+            'format' => $this->faker->randomElement(['dvd', 'blu-ray']),
+            'release_date' => $this->faker->date(),
+            'trailer_url' => $this->faker->url,
+            'image_url' => $this->faker->url,
         ];
     }
 }
