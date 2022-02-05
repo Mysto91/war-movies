@@ -1,6 +1,6 @@
 name: Laravel
 
-on: [push, merge]
+on: [push, pull_request]
 
 jobs:
   tests:
