@@ -25,7 +25,7 @@ class ArticlesTableSeeder extends Seeder
                 'rate' => $faker->randomFloat(1, 0, 5),
                 'format' => $faker->randomElement(['dvd', 'blu-ray']),
                 'trailer_url' => $faker->url,
-                'image_url' => $faker->url,
+                'image_url' => "/images/spool.png",
                 'release_date' => $faker->dateTimeBetween()
             ]);
         }
