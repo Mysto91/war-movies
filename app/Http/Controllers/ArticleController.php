@@ -13,7 +13,43 @@ use \Illuminate\Http\Response;
 class ArticleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *      path="/articles",
+     *      operationId="getAllArticles",
+     *      tags={"Tests"},
+
+     *      summary="Get list of articles",
+     *      description="Returns all articles.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="data", 
+     *                  type="array", 
+     *                  @OA\Items(ref="#/components/schemas/Article")
+     *          )
+     *      )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     * @OA\Response(
+     *      response=400,
+     *      description="Bad Request"
+     *   ),
+     * @OA\Response(
+     *      response=404,
+     *      description="not found"
+     *   ),
+     *  )
+     * 
+     * @param  GetArticleRequest  $request
      *
      * @return JsonResponse
      */
@@ -27,7 +63,37 @@ class ArticleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *      path="/articles",
+     *      operationId="createArticle",
+     *      tags={"Tests"},
+
+     *      summary="Create an article",
+     *      description="Create an article.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     * @OA\Response(
+     *      response=400,
+     *      description="Bad Request"
+     *   ),
+     * @OA\Response(
+     *      response=404,
+     *      description="not found"
+     *   ),
+     *  )
      *
      * @param  PostArticleRequest  $request
      * @return JsonResponse
