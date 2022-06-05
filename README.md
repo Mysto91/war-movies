@@ -10,7 +10,7 @@ In the project directory, you can run:
 
 ### `php artisan db:seed`
 
-### `php -S localhost:8000`
+### `php -S localhost:8000 -t public/`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
