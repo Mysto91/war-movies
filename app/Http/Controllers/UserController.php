@@ -12,6 +12,11 @@ use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except(['store']);
+    }
+
     /**
      * @OA\Get(
      *      path="/users",
@@ -31,7 +36,8 @@ class UserController extends Controller
      *              )
      *          )
      *      ),
-     *      @OA\Response(response="400", ref="#/components/responses/BadRequest")
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest"),
+     *      @OA\Response(response="401", ref="#/components/responses/Unauthorized"),
      *  )
      *
      * @param GetUserRequest $request
@@ -51,7 +57,6 @@ class UserController extends Controller
      * @OA\Post(
      *      path="/users",
      *      operationId="createUser",
-     *      security={"api_key"},
      *      tags={"Users"},
      *      summary="Create a user",
      *      description="Create a user.",
@@ -70,7 +75,7 @@ class UserController extends Controller
      *              )
      *          )
      *      ),
-     *      @OA\Response(response="400", ref="#/components/responses/BadRequest")
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest"),
      *  )
      *
      *
@@ -116,7 +121,8 @@ class UserController extends Controller
      *          )
      *      ),
      *      @OA\Response(response="404", ref="#/components/responses/NotFound"),
-     *      @OA\Response(response="400", ref="#/components/responses/BadRequest")
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest"),
+     *      @OA\Response(response="401", ref="#/components/responses/Unauthorized"),
      * )
      *
      * @param  User  $user
@@ -154,7 +160,8 @@ class UserController extends Controller
      *          )
      *      ),
      *      @OA\Response(response="404", ref="#/components/responses/NotFound"),
-     *      @OA\Response(response="400", ref="#/components/responses/BadRequest")
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest"),
+     *      @OA\Response(response="401", ref="#/components/responses/Unauthorized"),
      *  )
      *
      * @param  PutUserRequest  $request
@@ -181,7 +188,8 @@ class UserController extends Controller
      *      @OA\Parameter(name="userId", description="user id", in="path", required=true),
      *      @OA\Response(response=204, description="Deleted"),
      *      @OA\Response(response="404", ref="#/components/responses/NotFound"),
-     *      @OA\Response(response="400", ref="#/components/responses/BadRequest")
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest"),
+     *      @OA\Response(response="401", ref="#/components/responses/Unauthorized"),
      *  )
      *
      * @param  User  $user

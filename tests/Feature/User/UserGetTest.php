@@ -20,7 +20,7 @@ class UserGetTest extends TestCase
     {
         $userList = $this->getUserList(3);
 
-        $response = $this->get($this->getUrl());
+        $response = $this->get($this->getUrl(['api_token' => $userList[0]->api_token]));
 
         $response->assertStatus(200);
         $this->assertCount(count($userList), $response->original);
@@ -28,11 +28,12 @@ class UserGetTest extends TestCase
 
     public function testIfGetWithPaginationWorks()
     {
-        $this->getUserList(10);
+        $userList = $this->getUserList(10);
 
         $params = [
             'page' => 2,
-            'perPage' => 3
+            'perPage' => 3,
+            'api_token' => $userList[0]->api_token,
         ];
 
         $response = $this->get($this->getUrl($params));
@@ -43,18 +44,13 @@ class UserGetTest extends TestCase
         $this->assertEquals([4, 5, 6], array_column($output, 'id'));
     }
 
-    public function testIfGetWithNoUsersWorks()
-    {
-        $response = $this->get($this->getUrl());
-
-        $response->assertStatus(200);
-        $this->assertCount(0, $response->original);
-    }
-
     public function testIfGetWithWongParamPerPageNotWork()
     {
+        $user = $this->getUser();
+
         $params = [
-            'perPage' => 'wrong'
+            'perPage' => 'wrong',
+            'api_token' => $user->api_token
         ];
 
         $response = $this->get($this->getUrl($params));
@@ -71,8 +67,11 @@ class UserGetTest extends TestCase
 
     public function testIfGetWithWongParamPageNotWork()
     {
+        $user = $this->getUser();
+
         $params = [
-            'page' => 'wrong'
+            'page' => 'wrong',
+            'api_token' => $user->api_token
         ];
 
         $response = $this->get($this->getUrl($params));
@@ -85,5 +84,15 @@ class UserGetTest extends TestCase
 
         $response->assertStatus(422);
         $this->assertEquals(json_encode($expected), json_encode($response->original));
+    }
+
+    public function testIfGetWithNotAuthenticatedNotWork()
+    {
+        $user = $this->getUser();
+
+        $response = $this->get($this->getUrl());
+
+        $response->assertStatus(401);
+        $this->assertEquals(['401' => 'Unauthenticated.'], $response->original);
     }
 }

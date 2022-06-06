@@ -60,6 +60,9 @@
                     },
                     "400": {
                         "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
                     }
                 },
                 "security": [
@@ -103,6 +106,9 @@
                     },
                     "400": {
                         "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
                     }
                 },
                 "security": [
@@ -149,6 +155,9 @@
                     },
                     "400": {
                         "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
                     }
                 },
                 "security": [
@@ -203,6 +212,9 @@
                     },
                     "400": {
                         "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
                     }
                 },
                 "security": [
@@ -235,6 +247,9 @@
                     },
                     "400": {
                         "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
                     }
                 },
                 "security": [
@@ -273,6 +288,9 @@
                     },
                     "400": {
                         "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
                     }
                 },
                 "security": [
@@ -317,12 +335,7 @@
                     "400": {
                         "$ref": "#/components/responses/BadRequest"
                     }
-                },
-                "security": [
-                    {
-                        "scalar": "api_key"
-                    }
-                ]
+                }
             }
         },
         "/users/{userId}": {
@@ -362,6 +375,9 @@
                     },
                     "400": {
                         "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
                     }
                 },
                 "security": [
@@ -416,6 +432,9 @@
                     },
                     "400": {
                         "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
                     }
                 },
                 "security": [
@@ -448,6 +467,9 @@
                     },
                     "400": {
                         "$ref": "#/components/responses/BadRequest"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/Unauthorized"
                     }
                 },
                 "security": [
@@ -473,16 +495,6 @@
                     },
                     "href": {
                         "type": "string"
-                    }
-                },
-                "type": "object"
-            },
-            "CreatedAt": {
-                "properties": {
-                    "createdAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": "true"
                     }
                 },
                 "type": "object"
@@ -599,6 +611,22 @@
                                 "400": {
                                     "type": "string",
                                     "example": "Bad request."
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "Unauthorized": {
+                "description": "Unauthorized.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "401": {
+                                    "type": "string",
+                                    "example": "Unauthenticated."
                                 }
                             },
                             "type": "object"

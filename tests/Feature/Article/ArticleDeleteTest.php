@@ -42,7 +42,7 @@ class ArticleDeleteTest extends TestCase
         $this->assertEquals(['404' => 'The article does not exist.'], $response->original);
     }
 
-    public function testIfDeleteWithoutNotAuthenticatedNotWork()
+    public function testIfDeleteWithNotAuthenticatedNotWork()
     {
         $this->getUser();
 
