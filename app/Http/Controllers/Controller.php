@@ -44,16 +44,19 @@ class Controller extends BaseController
      *      )
      * )
      *
+     * @OA\Response(
+     *      response="Unauthorized",
+     *      description="Unauthorized.",
+     *      @OA\JsonContent(
+     *          @OA\Property(property="401", type="string", example="Unauthenticated.")
+     *      )
+     * )
+     *
      * @OA\Schema(
      *      schema="Links",
      *      @OA\Property(property="rel", type="string"),
      *      @OA\Property(property="type", type="string", enum={"GET"}),
      *      @OA\Property(property="href", type="string"),
-     * )
-     *
-     * @OA\Schema(
-     *      schema="CreatedAt",
-     *      @OA\Property(property="createdAt", type="string", readOnly="true", format="date-time")
      * )
      *
      */

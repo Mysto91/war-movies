@@ -11,25 +11,37 @@ class UserDeleteTest extends TestCase
 
     private $url = 'api/users';
 
-    public function getUrl($id)
+    public function getUrl($id, $params = [])
     {
-        return "{$this->url}/$id";
+        return $this->getUrlWithParams("{$this->url}/$id", $params);
     }
 
     public function testIfDeleteWorks()
     {
         $user = $this->getUser();
 
-        $response = $this->delete($this->getUrl($user->id));
+        $response = $this->delete($this->getUrl($user->id, ['api_token' => $user->api_token]));
 
         $response->assertStatus(204);
     }
 
     public function testIfDeleteNotExistingUserNotWork()
     {
-        $response = $this->delete($this->getUrl(99999));
+        $user = $this->getUser();
+
+        $response = $this->delete($this->getUrl(99999, ['api_token' => $user->api_token]));
 
         $response->assertStatus(404);
         $this->assertEquals(['404' => 'The user does not exist.'], $response->original);
+    }
+
+    public function testIfDeleteWithNotAuthenticatedNotWork()
+    {
+        $user = $this->getUser();
+
+        $response = $this->delete($this->getUrl($user->id, ['api_token' => '1234']));
+
+        $response->assertStatus(401);
+        $this->assertEquals(['401' => 'Unauthenticated.'], $response->original);
     }
 }

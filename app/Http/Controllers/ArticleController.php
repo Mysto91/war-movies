@@ -33,7 +33,8 @@ class ArticleController extends Controller
      *              )
      *          )
      *      ),
-     *      @OA\Response(response="400", ref="#/components/responses/BadRequest")
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest"),
+     *      @OA\Response(response="401", ref="#/components/responses/Unauthorized"),
      *  )
      *
      * @param  GetArticleRequest  $request
@@ -72,7 +73,8 @@ class ArticleController extends Controller
      *              )
      *          )
      *      ),
-     *      @OA\Response(response="400", ref="#/components/responses/BadRequest")
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest"),
+     *      @OA\Response(response="401", ref="#/components/responses/Unauthorized"),
      *  )
      *
      * @param  PostArticleRequest  $request
@@ -112,7 +114,8 @@ class ArticleController extends Controller
      *          )
      *      ),
      *      @OA\Response(response="404", ref="#/components/responses/NotFound"),
-     *      @OA\Response(response="400", ref="#/components/responses/BadRequest")
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest"),
+     *      @OA\Response(response="401", ref="#/components/responses/Unauthorized"),
      *  )
      *
      * @param  Article  $article
@@ -150,7 +153,8 @@ class ArticleController extends Controller
      *          )
      *      ),
      *      @OA\Response(response="404", ref="#/components/responses/NotFound"),
-     *      @OA\Response(response="400", ref="#/components/responses/BadRequest")
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest"),
+     *      @OA\Response(response="401", ref="#/components/responses/Unauthorized"),
      *  )
      *
      * @param  PutArticleRequest  $request
@@ -207,7 +211,8 @@ class ArticleController extends Controller
      *      @OA\Parameter(name="articleId", description="article id", in="path", required=true),
      *      @OA\Response(response=204, description="Deleted"),
      *      @OA\Response(response="404", ref="#/components/responses/NotFound"),
-     *      @OA\Response(response="400", ref="#/components/responses/BadRequest")
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest"),
+     *      @OA\Response(response="401", ref="#/components/responses/Unauthorized"),
      *  )
      *
      * @param  Article  $article

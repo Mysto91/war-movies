@@ -11,9 +11,9 @@ class UserPutTest extends TestCase
 
     private $url = 'api/users';
 
-    public function getUrl($id)
+    public function getUrl($id, $params = [])
     {
-        return "{$this->url}/{$id}";
+        return $this->getUrlWithParams("{$this->url}/{$id}", $params);
     }
 
     public function testIfPutWorks()
@@ -28,7 +28,7 @@ class UserPutTest extends TestCase
             'password' => bcrypt($faker->password(5, 10)),
         ];
 
-        $response = $this->json('PUT', $this->getUrl($user->id), $body);
+        $response = $this->json('PUT', $this->getUrl($user->id, ['api_token' => $user->api_token]), $body);
         $data = $response->original;
 
         $response->assertStatus(201);
@@ -38,6 +38,8 @@ class UserPutTest extends TestCase
 
     public function testIfPutWithNotExistingUserWorks()
     {
+        $user = $this->getUser();
+
         $faker = $this->getFaker();
 
         $body = [
@@ -46,9 +48,19 @@ class UserPutTest extends TestCase
             'password' => bcrypt($faker->password(5, 10)),
         ];
 
-        $response = $this->json('PUT', $this->getUrl(9999), $body);
+        $response = $this->json('PUT', $this->getUrl(9999, ['api_token' => $user->api_token]), $body);
 
         $response->assertStatus(404);
         $this->assertEquals(['404' => 'The user does not exist.'], $response->original);
+    }
+
+    public function testIfPutWithNotAuthenticatedNotWork()
+    {
+        $user = $this->getUser();
+
+        $response = $this->put($this->getUrl($user->id));
+
+        $response->assertStatus(401);
+        $this->assertEquals(['401' => 'Unauthenticated.'], $response->original);
     }
 }
