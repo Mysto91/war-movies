@@ -13,7 +13,28 @@ use Illuminate\Http\Response;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *      path="/users",
+     *      operationId="getAllUsers",
+     *      security={"api_key"},
+     *      tags={"Users"},
+     *      summary="Get list of users",
+     *      description="Get all users.",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Ok",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(ref="#/components/schemas/User")
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest")
+     *  )
+     *
+     * @param GetUserRequest $request
      *
      * @return JsonResponse
      */
@@ -27,7 +48,31 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *      path="/users",
+     *      operationId="createUser",
+     *      security={"api_key"},
+     *      tags={"Users"},
+     *      summary="Create a user",
+     *      description="Create a user.",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/User")
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Created",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="object",
+     *                  ref="#/components/schemas/User"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest")
+     *  )
+     *
      *
      * @param  PostUserRequest  $request
      * @return JsonResponse
@@ -51,7 +96,28 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *      path="/users/{userId}",
+     *      operationId="getUserById",
+     *      security={"api_key"},
+     *      tags={"Users"},
+     *      summary="Get the user",
+     *      description="Get the user.",
+     *      @OA\Parameter(name="userId", description="user id", in="path", required=true),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Ok",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="object",
+     *                  ref="#/components/schemas/User"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(response="404", ref="#/components/responses/NotFound"),
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest")
+     * )
      *
      * @param  User  $user
      * @return JsonResponse
@@ -64,7 +130,32 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *      path="/users/{userId}",
+     *      operationId="updateUser",
+     *      security={"api_key"},
+     *      tags={"Users"},
+     *      summary="Update a user",
+     *      description="Update a user.",
+     *      @OA\Parameter(name="userId", description="user id", in="path", required=true),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/User")
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Created",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="object",
+     *                  ref="#/components/schemas/User"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(response="404", ref="#/components/responses/NotFound"),
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest")
+     *  )
      *
      * @param  PutUserRequest  $request
      * @param  User  $user
@@ -80,7 +171,18 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *      path="/users/{userId}",
+     *      operationId="deleteUserById",
+     *      security={"api_key"},
+     *      tags={"Users"},
+     *      summary="Delete the user.",
+     *      description="Delete the user.",
+     *      @OA\Parameter(name="userId", description="user id", in="path", required=true),
+     *      @OA\Response(response=204, description="Deleted"),
+     *      @OA\Response(response="404", ref="#/components/responses/NotFound"),
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest")
+     *  )
      *
      * @param  User  $user
      * @return Response

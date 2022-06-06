@@ -8,9 +8,25 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+/**
+ * @OA\Schema(
+ *      @OA\Property(property="id", type="integer", readOnly="true"),
+ *      @OA\Property(property="name", type="string"),
+ *      @OA\Property(property="email", type="string"),
+ *      @OA\Property(property="createdAt", type="string", readOnly="true", format="date-time"),
+ *      @OA\Property(property="updatedAt", type="string", readOnly="true", format="date-time"),
+ *      @OA\Property(
+ *          property="_links",
+ *          type="array",
+ *          readOnly=true,
+ *          @OA\Items(ref="#/components/schemas/Links")
+ *      ),
+ * )
+ */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
