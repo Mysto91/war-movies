@@ -8,27 +8,23 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * App\Models\Article
- * 
+ *
  * @OA\Schema(
  *      @OA\Property(property="id", type="integer", readOnly="true"),
  *      @OA\Property(property="title", type="string"),
  *      @OA\Property(property="description", type="string"),
  *      @OA\Property(property="rate", type="string"),
- *      @OA\Property(property="format", type="string"),
+ *      @OA\Property(property="format", type="string", enum={"dvd", "blu-ray"}),
  *      @OA\Property(property="trailerUrl", type="string"),
  *      @OA\Property(property="imageUrl", type="string"),
- *      @OA\Property(property="releaseDate", type="string"),
- *      @OA\Property(property="createdAt", type="string", readOnly="true"),
- *      @OA\Property(property="updatedAt", type="string", readOnly="true"),
+ *      @OA\Property(property="releaseDate", type="string", format="date"),
+ *      @OA\Property(property="createdAt", type="string", readOnly="true", format="date-time"),
+ *      @OA\Property(property="updatedAt", type="string", readOnly="true", format="date-time"),
  *      @OA\Property(
- *          property="links", 
- *          type="array", 
- *          readOnly="true", 
- *          @OA\Items(
- *              @OA\Property(property="rel", type="string"),
- *              @OA\Property(property="type", type="string"),
- *              @OA\Property(property="href", type="string"),
- *          )
+ *          property="_links",
+ *          type="array",
+ *          readOnly=true,
+ *          @OA\Items(ref="#/components/schemas/Links")
  *      ),
  * )
  *

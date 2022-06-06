@@ -28,7 +28,39 @@ class Controller extends BaseController
      *      description="Demo API Server"
      * )
      *
+     * @OA\Response(
+     *      response="NotFound",
+     *      description="Resource not found.",
+     *      @OA\JsonContent(
+     *          @OA\Property(property="404", type="string", example="The article does not exist.")
+     *      )
+     * )
+     *
+     * @OA\Response(
+     *      response="BadRequest",
+     *      description="Bad request.",
+     *      @OA\JsonContent(
+     *          @OA\Property(property="400", type="string", example="Bad request.")
+     *      )
+     * )
+     *
+     * @OA\Response(
+     *      response="Unauthorized",
+     *      description="Unauthorized.",
+     *      @OA\JsonContent(
+     *          @OA\Property(property="401", type="string", example="Unauthenticated.")
+     *      )
+     * )
+     *
+     * @OA\Schema(
+     *      schema="Links",
+     *      @OA\Property(property="rel", type="string"),
+     *      @OA\Property(property="type", type="string", enum={"GET"}),
+     *      @OA\Property(property="href", type="string"),
+     * )
      *
      */
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use AuthorizesRequests;
+    use DispatchesJobs;
+    use ValidatesRequests;
 }

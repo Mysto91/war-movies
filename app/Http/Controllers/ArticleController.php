@@ -8,7 +8,7 @@ use App\Http\Requests\PutArticleRequest;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use Illuminate\Http\JsonResponse;
-use \Illuminate\Http\Response;
+use Illuminate\Http\Response;
 
 class ArticleController extends Controller
 {
@@ -16,41 +16,27 @@ class ArticleController extends Controller
      * @OA\Get(
      *      path="/articles",
      *      operationId="getAllArticles",
+     *      security={"api_key"},
      *      tags={"Articles"},
      *      summary="Get list of articles",
      *      description="Get all articles.",
-     *      @OA\Parameter(name="api_token", description="Api token", in="query", required=true),
      *      @OA\Parameter(name="perPage", description="Number per page", in="query"),
      *      @OA\Parameter(name="page", description="Current page", in="query"),
      *      @OA\Response(
      *          response=200,
-     *          description="Successful operation",
+     *          description="Ok",
      *          @OA\JsonContent(
      *              @OA\Property(
-     *                  property="data", 
-     *                  type="array", 
+     *                  property="data",
+     *                  type="array",
      *                  @OA\Items(ref="#/components/schemas/Article")
+     *              )
      *          )
-     *      )
      *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      ),
-     *      @OA\Response(
-     *          response=400,
-     *          description="Bad Request"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="not found"
-     *      ),
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest"),
+     *      @OA\Response(response="401", ref="#/components/responses/Unauthorized"),
      *  )
-     * 
+     *
      * @param  GetArticleRequest  $request
      *
      * @return JsonResponse
@@ -68,41 +54,27 @@ class ArticleController extends Controller
      * @OA\Post(
      *      path="/articles",
      *      operationId="createArticle",
+     *      security={"api_key"},
      *      tags={"Articles"},
      *      summary="Create an article",
      *      description="Create an article.",
-     *      @OA\Parameter(name="api_token", description="Api token", in="query", required=true),
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(ref="#/components/schemas/Article")
      *      ),
      *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
+     *          response=201,
+     *          description="Created",
      *          @OA\JsonContent(
      *              @OA\Property(
-     *                  property="data", 
-     *                  type="object", 
+     *                  property="data",
+     *                  type="object",
      *                  ref="#/components/schemas/Article"
      *              )
      *          )
      *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      ),
-     *      @OA\Response(
-     *          response=400,
-     *          description="Bad Request"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="not found"
-     *      ),
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest"),
+     *      @OA\Response(response="401", ref="#/components/responses/Unauthorized"),
      *  )
      *
      * @param  PostArticleRequest  $request
@@ -125,38 +97,25 @@ class ArticleController extends Controller
      * @OA\Get(
      *      path="/articles/{articleId}",
      *      operationId="getArticleById",
+     *      security={"api_key"},
      *      tags={"Articles"},
      *      summary="Get the article.",
      *      description="Get the article.",
      *      @OA\Parameter(name="articleId", description="article id", in="path", required=true),
-     *      @OA\Parameter(name="api_token", description="Api token", in="query", required=true),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(
-     *                  property="data", 
-     *                  type="object", 
+     *                  property="data",
+     *                  type="object",
      *                  ref="#/components/schemas/Article"
+     *              )
      *          )
-     *      )
      *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      ),
-     *      @OA\Response(
-     *          response=400,
-     *          description="Bad Request"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="not found"
-     *      ),
+     *      @OA\Response(response="404", ref="#/components/responses/NotFound"),
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest"),
+     *      @OA\Response(response="401", ref="#/components/responses/Unauthorized"),
      *  )
      *
      * @param  Article  $article
@@ -173,6 +132,7 @@ class ArticleController extends Controller
      * @OA\Put(
      *      path="/articles/{articleId}",
      *      operationId="updateArticle",
+     *      security={"api_key"},
      *      tags={"Articles"},
      *      summary="Update the article.",
      *      description="Update the article.",
@@ -181,34 +141,20 @@ class ArticleController extends Controller
      *          @OA\JsonContent(ref="#/components/schemas/Article")
      *      ),
      *      @OA\Parameter(name="articleId", description="article id", in="path", required=true),
-     *      @OA\Parameter(name="api_token", description="Api token", in="query", required=true),
      *      @OA\Response(
      *          response=201,
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(
-     *                  property="data", 
-     *                  type="object", 
+     *                  property="data",
+     *                  type="object",
      *                  ref="#/components/schemas/Article"
+     *              )
      *          )
-     *      )
      *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      ),
-     *      @OA\Response(
-     *          response=400,
-     *          description="Bad Request"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="not found"
-     *      ),
+     *      @OA\Response(response="404", ref="#/components/responses/NotFound"),
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest"),
+     *      @OA\Response(response="401", ref="#/components/responses/Unauthorized"),
      *  )
      *
      * @param  PutArticleRequest  $request
@@ -258,28 +204,17 @@ class ArticleController extends Controller
      * @OA\Delete(
      *      path="/articles/{articleId}",
      *      operationId="deleteArticleById",
+     *      security={"api_key"},
      *      tags={"Articles"},
      *      summary="Delete the article.",
      *      description="Delete the article.",
      *      @OA\Parameter(name="articleId", description="article id", in="path", required=true),
-     *      @OA\Parameter(name="api_token", description="Api token", in="query", required=true),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      ),
-     *      @OA\Response(
-     *          response=400,
-     *          description="Bad Request"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="not found"
-     *      ),
+     *      @OA\Response(response=204, description="Deleted"),
+     *      @OA\Response(response="404", ref="#/components/responses/NotFound"),
+     *      @OA\Response(response="400", ref="#/components/responses/BadRequest"),
+     *      @OA\Response(response="401", ref="#/components/responses/Unauthorized"),
      *  )
+     *
      * @param  Article  $article
      * @return Response
      */
