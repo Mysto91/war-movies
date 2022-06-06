@@ -21,7 +21,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
  *      @OA\Property(property="createdAt", type="string", readOnly="true", format="date-time"),
  *      @OA\Property(property="updatedAt", type="string", readOnly="true", format="date-time"),
  *      @OA\Property(
- *          property="links",
+ *          property="_links",
  *          type="array",
  *          readOnly=true,
  *          @OA\Items(ref="#/components/schemas/Links")

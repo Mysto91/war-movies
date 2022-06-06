@@ -530,7 +530,7 @@
                         "format": "date-time",
                         "readOnly": "true"
                     },
-                    "links": {
+                    "_links": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/Links"
@@ -562,7 +562,7 @@
                         "format": "date-time",
                         "readOnly": "true"
                     },
-                    "links": {
+                    "_links": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/Links"
