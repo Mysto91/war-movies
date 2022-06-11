@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\MovieFormat;
+
 class PutArticleRequest extends ApiFormRequest
 {
     /**
@@ -24,7 +26,7 @@ class PutArticleRequest extends ApiFormRequest
         return [
             'title' => 'max:255',
             'description' => 'max:255',
-            'format' => 'max:10|in:dvd,blu-ray',
+            'format' => new MovieFormat(),
             'rate' => 'numeric',
             'trailerUrl' => 'url',
             'releaseDate' => 'date:Y-m-d',

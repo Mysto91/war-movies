@@ -9,6 +9,7 @@ use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Jawira\CaseConverter\Convert;
 
 class ArticleController extends Controller
 {
@@ -164,36 +165,15 @@ class ArticleController extends Controller
     public function update(PutArticleRequest $request, Article $article): JsonResponse
     {
         $body = $request->all();
+        unset($body['api_token']);
+        $keys = array_keys($body);
 
-        if (isset($body['title'])) {
-            $article->title = $body['title'];
+        foreach ($keys as $key) {
+            $attribute = (new Convert($key))->toSnake();
+            $article->$attribute = $body[$key];
         }
 
-        if (isset($body['description'])) {
-            $article->description = $body['description'];
-        }
-
-        if (isset($body['format'])) {
-            $article->format = $body['format'];
-        }
-
-        if (isset($body['rate'])) {
-            $article->rate = $body['rate'];
-        }
-
-        if (isset($body['trailerUrl'])) {
-            $article->trailer_url = $body['trailerUrl'];
-        }
-
-        if (isset($body['imageUrl'])) {
-            $article->image_url = $body['imageUrl'];
-        }
-
-        if (isset($body['releaseDate'])) {
-            $article->release_date = $body['releaseDate'];
-        }
-
-        $article->update($body);
+        $article->update();
 
         return ArticleResource::make($article)
             ->response()

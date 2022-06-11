@@ -32,7 +32,7 @@ class UserDeleteTest extends TestCase
         $response = $this->delete($this->getUrl(99999, ['api_token' => $user->api_token]));
 
         $response->assertStatus(404);
-        $this->assertEquals(['404' => 'The user does not exist.'], $response->original);
+        $this->assertSame(['404' => 'The user does not exist.'], $response->original);
     }
 
     public function testIfDeleteWithNotAuthenticatedNotWork()
@@ -42,6 +42,6 @@ class UserDeleteTest extends TestCase
         $response = $this->delete($this->getUrl($user->id, ['api_token' => '1234']));
 
         $response->assertStatus(401);
-        $this->assertEquals(['401' => 'Unauthenticated.'], $response->original);
+        $this->assertSame(['401' => 'Unauthenticated.'], $response->original);
     }
 }
