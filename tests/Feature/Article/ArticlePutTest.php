@@ -16,6 +16,21 @@ class ArticlePutTest extends TestCase
         return "{$this->url}/$id?api_token=$apiToken";
     }
 
+    private function formatBody()
+    {
+        $faker = $this->getFaker();
+
+        return [
+            'title' => $faker->name,
+            'description' => $faker->text(100),
+            'format' => $faker->randomElement(['dvd', 'blu-ray']),
+            'rate' => $faker->randomFloat(1, 0, 5),
+            'releaseDate' => $faker->date(),
+            'trailerUrl' => $faker->url,
+            'imageUrl' => $faker->url
+        ];
+    }
+
     /**
      * A basic feature test example.
      *
@@ -25,19 +40,9 @@ class ArticlePutTest extends TestCase
     {
         $user = $this->getUser();
 
-        $faker = $this->getFaker();
-
-        $body = [
-            'title' => $faker->name,
-            'description' => $faker->text(100),
-            'format' => $faker->randomElement(['dvd', 'blu-ray']),
-            'rate' => $faker->randomFloat(1, 0, 5),
-            'releaseDate' => $faker->date(),
-            'trailerUrl' => $faker->url,
-            'imageUrl' => $faker->url
-        ];
-
         $article = $this->getArticle();
+
+        $body = $this->formatBody();
 
         $response = $this->json('PUT', $this->getUrl($article->id, $user->api_token), $body);
 
@@ -47,13 +52,13 @@ class ArticlePutTest extends TestCase
 
         $response->assertStatus(201);
 
-        $this->assertEquals($body['title'], $data['title']);
-        $this->assertEquals($body['description'], $data['description']);
-        $this->assertEquals($body['format'], $data['format']);
-        $this->assertEquals($body['rate'], $data['rate']);
-        $this->assertEquals($body['releaseDate'], $data['releaseDate']);
-        $this->assertEquals($body['trailerUrl'], $data['trailerUrl']);
-        $this->assertEquals($body['imageUrl'], $data['imageUrl']);
+        $this->assertSame($body['title'], $data['title']);
+        $this->assertSame($body['description'], $data['description']);
+        $this->assertSame($body['format'], $data['format']);
+        $this->assertSame($body['rate'], $data['rate']);
+        $this->assertSame($body['releaseDate'], $data['releaseDate']);
+        $this->assertSame($body['trailerUrl'], $data['trailerUrl']);
+        $this->assertSame($body['imageUrl'], $data['imageUrl']);
     }
 
     public function testIfPutWithNotExistingArticleNotWork()
@@ -68,7 +73,7 @@ class ArticlePutTest extends TestCase
         $response = $this->json('PUT', $this->getUrl(999999, $user->api_token), $body);
 
         $response->assertStatus(404);
-        $this->assertEquals(['404' => 'The article does not exist.'], $response->original);
+        $this->assertSame(['404' => 'The article does not exist.'], $response->original);
     }
 
     public function testIfPutWithoutNotAuthenticatedNotWork()
@@ -77,6 +82,25 @@ class ArticlePutTest extends TestCase
 
         $response = $this->json('PUT', $this->getUrl($article->id, 123456), []);
         $response->assertStatus(401);
-        $this->assertEquals(['401' => 'Unauthenticated.'], $response->original);
+        $this->assertSame(['401' => 'Unauthenticated.'], $response->original);
+    }
+
+    public function testIfPutWithWrongParamFormatNotWork()
+    {
+        $article = $this->getArticle();
+
+        $user = $this->getUser();
+
+        $body = $this->formatBody();
+        $body['format'] = 'wrong';
+
+        $response = $this->json('PUT', $this->getUrl($article->id, $user->api_token), $body);
+
+        $expected = [
+            'format' => ['The format must be dvd or blu-ray.']
+        ];
+
+        $response->assertStatus(422);
+        $this->assertSame(json_encode($expected), $response->getContent());
     }
 }

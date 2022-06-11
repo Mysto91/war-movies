@@ -16,6 +16,21 @@ class ArticlePostTest extends TestCase
         return "{$this->url}?api_token=$apiToken";
     }
 
+    private function formatBody()
+    {
+        $faker = $this->getFaker();
+
+        return [
+            'title' => $faker->name,
+            'description' => $faker->text(100),
+            'format' => $faker->randomElement(['dvd', 'blu-ray']),
+            'rate' => $faker->randomFloat(1, 0, 5),
+            'releaseDate' => $faker->date(),
+            'trailerUrl' => $faker->url,
+            'imageUrl' => $faker->url
+        ];
+    }
+
     /**
      * A basic feature test example.
      *
@@ -25,17 +40,7 @@ class ArticlePostTest extends TestCase
     {
         $user = $this->getUser();
 
-        $faker = $this->getFaker();
-
-        $body = [
-            'title' => $faker->name,
-            'description' => $faker->text(100),
-            'format' => $faker->randomElement(['dvd', 'blu-ray']),
-            'rate' => $faker->randomFloat(1, 0, 5),
-            'releaseDate' => $faker->date(),
-            'trailerUrl' => $faker->url,
-            'imageUrl' => $faker->url
-        ];
+        $body = $this->formatBody();
 
         $response = $this->json('POST', $this->getUrl($user->api_token), $body);
 
@@ -45,12 +50,12 @@ class ArticlePostTest extends TestCase
 
         $response->assertStatus(201);
 
-        $this->assertEquals($body['title'], $data['title']);
-        $this->assertEquals($body['description'], $data['description']);
-        $this->assertEquals($body['format'], $data['format']);
-        $this->assertEquals($body['rate'], $data['rate']);
-        $this->assertEquals($body['trailerUrl'], $data['trailerUrl']);
-        $this->assertEquals($body['imageUrl'], $data['imageUrl']);
+        $this->assertSame($body['title'], $data['title']);
+        $this->assertSame($body['description'], $data['description']);
+        $this->assertSame($body['format'], $data['format']);
+        $this->assertSame($body['rate'], $data['rate']);
+        $this->assertSame($body['trailerUrl'], $data['trailerUrl']);
+        $this->assertSame($body['imageUrl'], $data['imageUrl']);
     }
 
     public function testIfPostWithWrongBodyNotWork()
@@ -83,7 +88,7 @@ class ArticlePostTest extends TestCase
             ]
         ];
 
-        $this->assertEquals(json_encode($expected), $response->getContent());
+        $this->assertSame(json_encode($expected), $response->getContent());
     }
 
     public function testIfPostWithoutNotAuthenticatedNotWork()
@@ -91,6 +96,23 @@ class ArticlePostTest extends TestCase
         $response = $this->json('POST', $this->getUrl(123456), []);
 
         $response->assertStatus(401);
-        $this->assertEquals(['401' => 'Unauthenticated.'], $response->original);
+        $this->assertSame(['401' => 'Unauthenticated.'], $response->original);
+    }
+
+    public function testIfPosttWithWrongParamFormatNotWork()
+    {
+        $user = $this->getUser();
+
+        $body = $this->formatBody();
+        $body['format'] = 'wrong';
+
+        $response = $this->json('POST', $this->getUrl($user->api_token), $body);
+
+        $expected = [
+            'format' => ['The format must be dvd or blu-ray.']
+        ];
+
+        $response->assertStatus(422);
+        $this->assertSame(json_encode($expected), $response->getContent());
     }
 }

@@ -32,8 +32,8 @@ class UserPutTest extends TestCase
         $data = $response->original;
 
         $response->assertStatus(201);
-        $this->assertEquals($body['name'], $data['name']);
-        $this->assertEquals($body['email'], $data['email']);
+        $this->assertSame($body['name'], $data['name']);
+        $this->assertSame($body['email'], $data['email']);
     }
 
     public function testIfPutWithNotExistingUserWorks()
@@ -51,7 +51,7 @@ class UserPutTest extends TestCase
         $response = $this->json('PUT', $this->getUrl(9999, ['api_token' => $user->api_token]), $body);
 
         $response->assertStatus(404);
-        $this->assertEquals(['404' => 'The user does not exist.'], $response->original);
+        $this->assertSame(['404' => 'The user does not exist.'], $response->original);
     }
 
     public function testIfPutWithNotAuthenticatedNotWork()
@@ -61,6 +61,6 @@ class UserPutTest extends TestCase
         $response = $this->put($this->getUrl($user->id));
 
         $response->assertStatus(401);
-        $this->assertEquals(['401' => 'Unauthenticated.'], $response->original);
+        $this->assertSame(['401' => 'Unauthenticated.'], $response->original);
     }
 }

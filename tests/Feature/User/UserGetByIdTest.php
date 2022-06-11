@@ -26,7 +26,7 @@ class UserGetByIdTest extends TestCase
         $data = $responseBody['data'];
 
         $response->assertStatus(200);
-        $this->assertEquals($user->id, $data['id']);
+        $this->assertSame($user->id, $data['id']);
         $this->assertStringContainsString("{$this->url}/{$user->id}", $data['_links'][0]['href']);
         $this->assertStringContainsString($this->url, $data['_links'][1]['href']);
     }
@@ -38,7 +38,7 @@ class UserGetByIdTest extends TestCase
         $response = $this->get($this->getUrl(9999, $user->api_token));
 
         $response->assertStatus(404);
-        $this->assertEquals(['404' => 'The user does not exist.'], $response->original);
+        $this->assertSame(['404' => 'The user does not exist.'], $response->original);
     }
 
     public function testIfGetWithNotAuthenticatedNotWork()
@@ -48,6 +48,6 @@ class UserGetByIdTest extends TestCase
         $response = $this->delete($this->getUrl($user->id, '1234'));
 
         $response->assertStatus(401);
-        $this->assertEquals(['401' => 'Unauthenticated.'], $response->original);
+        $this->assertSame(['401' => 'Unauthenticated.'], $response->original);
     }
 }

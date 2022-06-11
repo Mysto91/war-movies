@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\MovieFormat;
+
 class PostArticleRequest extends ApiFormRequest
 {
     /**
@@ -24,7 +26,10 @@ class PostArticleRequest extends ApiFormRequest
         return [
             'title' => 'required|max:255',
             'description' => 'required',
-            'format' => 'present|max:10|in:dvd,blu-ray',
+            'format' => [
+                'present',
+                new MovieFormat()
+            ],
             'rate' => 'present|numeric',
             'trailerUrl' => 'present|url',
             'imageUrl' => 'present|url',
