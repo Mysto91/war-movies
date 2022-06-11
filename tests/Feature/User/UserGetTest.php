@@ -41,7 +41,7 @@ class UserGetTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertCount($params['perPage'], $output);
-        $this->assertEquals([4, 5, 6], array_column($output, 'id'));
+        $this->assertSame([4, 5, 6], array_column($output, 'id'));
     }
 
     public function testIfGetWithWongParamPerPageNotWork()
@@ -62,7 +62,7 @@ class UserGetTest extends TestCase
         ];
 
         $response->assertStatus(422);
-        $this->assertEquals(json_encode($expected), json_encode($response->original));
+        $this->assertSame(json_encode($expected), json_encode($response->original));
     }
 
     public function testIfGetWithWongParamPageNotWork()
@@ -83,7 +83,7 @@ class UserGetTest extends TestCase
         ];
 
         $response->assertStatus(422);
-        $this->assertEquals(json_encode($expected), json_encode($response->original));
+        $this->assertSame(json_encode($expected), json_encode($response->original));
     }
 
     public function testIfGetWithNotAuthenticatedNotWork()
@@ -93,6 +93,6 @@ class UserGetTest extends TestCase
         $response = $this->get($this->getUrl());
 
         $response->assertStatus(401);
-        $this->assertEquals(['401' => 'Unauthenticated.'], $response->original);
+        $this->assertSame(['401' => 'Unauthenticated.'], $response->original);
     }
 }

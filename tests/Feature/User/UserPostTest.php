@@ -30,8 +30,8 @@ class UserPostTest extends TestCase
         $data = $response->original;
 
         $response->assertStatus(201);
-        $this->assertEquals($body['name'], $data['name']);
-        $this->assertEquals($body['email'], $data['email']);
+        $this->assertSame($body['name'], $data['name']);
+        $this->assertSame($body['email'], $data['email']);
     }
 
     public function testIfPostWithWrongBodyNotWork()
@@ -55,7 +55,7 @@ class UserPostTest extends TestCase
         ];
 
         $response->assertStatus(422);
-        $this->assertEquals(json_encode($expected), $response->getContent());
+        $this->assertSame(json_encode($expected), $response->getContent());
     }
 
     public function testIfPostWithAlreadyExistingNameNotWork()
@@ -79,7 +79,7 @@ class UserPostTest extends TestCase
         ];
 
         $response->assertStatus(422);
-        $this->assertEquals(json_encode($expected), $response->getContent());
+        $this->assertSame(json_encode($expected), $response->getContent());
     }
 
     public function testIfPostWithAlreadyExistingEmailNotWork()
@@ -103,6 +103,6 @@ class UserPostTest extends TestCase
         ];
 
         $response->assertStatus(422);
-        $this->assertEquals(json_encode($expected), $response->getContent());
+        $this->assertSame(json_encode($expected), $response->getContent());
     }
 }

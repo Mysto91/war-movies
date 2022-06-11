@@ -35,7 +35,7 @@ class ArticleGetByIdTest extends TestCase
 
         $data = $responseBody['data'];
 
-        $this->assertEquals($article->id, $data['id']);
+        $this->assertSame($article->id, $data['id']);
         $this->assertStringContainsString($this->url . '/' . $article->id, $data['_links'][0]['href']);
         $this->assertStringContainsString($this->url, $data['_links'][1]['href']);
     }
@@ -47,7 +47,7 @@ class ArticleGetByIdTest extends TestCase
         $response = $this->get($this->getUrl($article->id, 1234));
 
         $response->assertStatus(401);
-        $this->assertEquals(['401' => 'Unauthenticated.'], $response->original);
+        $this->assertSame(['401' => 'Unauthenticated.'], $response->original);
     }
 
     public function testIfGetWithNotExistingArticleNotWork()
@@ -59,6 +59,6 @@ class ArticleGetByIdTest extends TestCase
         $response = $this->get($this->getUrl(9999, $user->api_token));
 
         $response->assertStatus(404);
-        $this->assertEquals(['404' => 'The article does not exist.'], $response->original);
+        $this->assertSame(['404' => 'The article does not exist.'], $response->original);
     }
 }

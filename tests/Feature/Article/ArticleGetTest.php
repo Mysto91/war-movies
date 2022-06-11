@@ -30,7 +30,7 @@ class ArticleGetTest extends TestCase
         $response = $this->get($this->getUrl(['api_token' => $user->api_token]));
 
         $response->assertStatus(200);
-        $this->assertEquals(5, sizeof($response->original));
+        $this->assertSame(5, sizeof($response->original));
     }
 
     public function testIfGetWithNoArticleWorks()
@@ -40,7 +40,7 @@ class ArticleGetTest extends TestCase
         $response = $this->get($this->getUrl(['api_token' => $user->api_token]));
 
         $response->assertStatus(200);
-        $this->assertEquals(0, sizeof($response->original));
+        $this->assertSame(0, sizeof($response->original));
     }
 
     public function testIfGetWithPaginationWorks()
@@ -60,7 +60,7 @@ class ArticleGetTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertCount($params['perPage'], $output);
-        $this->assertEquals([4, 5, 6], array_column($output, 'id'));
+        $this->assertSame([4, 5, 6], array_column($output, 'id'));
     }
 
     public function testIfGetWithoutNotAuthenticatedNotWork()
@@ -68,7 +68,7 @@ class ArticleGetTest extends TestCase
         $response = $this->get($this->getUrl(['api_token' => 1234]));
 
         $response->assertStatus(401);
-        $this->assertEquals(['401' => 'Unauthenticated.'], $response->original);
+        $this->assertSame(['401' => 'Unauthenticated.'], $response->original);
     }
 
     public function testIfGetWithWongParamPerPageNotWork()
@@ -89,7 +89,7 @@ class ArticleGetTest extends TestCase
         ];
 
         $response->assertStatus(422);
-        $this->assertEquals(json_encode($expected), json_encode($response->original));
+        $this->assertSame(json_encode($expected), json_encode($response->original));
     }
 
     public function testIfGetWithWongParamPageNotWork()
@@ -110,6 +110,6 @@ class ArticleGetTest extends TestCase
         ];
 
         $response->assertStatus(422);
-        $this->assertEquals(json_encode($expected), json_encode($response->original));
+        $this->assertSame(json_encode($expected), json_encode($response->original));
     }
 }
