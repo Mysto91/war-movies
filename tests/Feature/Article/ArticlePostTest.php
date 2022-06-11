@@ -53,7 +53,7 @@ class ArticlePostTest extends TestCase
         $this->assertSame($body['title'], $data['title']);
         $this->assertSame($body['description'], $data['description']);
         $this->assertSame($body['format'], $data['format']);
-        $this->assertSame($body['rate'], $data['rate']);
+        $this->assertEquals($body['rate'], $data['rate']);
         $this->assertSame($body['trailerUrl'], $data['trailerUrl']);
         $this->assertSame($body['imageUrl'], $data['imageUrl']);
     }
