@@ -20,4 +20,4 @@ jobs:
       - name: PHPUnit
         run: vendor/bin/phpunit
       - name: php-cs-fixer
-        run: vendor\bin\php-cs-fixer fix --dry-run -v --diff
+        run: vendor/bin/php-cs-fixer fix --dry-run -v --diff
